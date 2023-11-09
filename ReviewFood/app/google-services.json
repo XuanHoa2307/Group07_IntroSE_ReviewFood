@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "329422096259",
+    "project_id": "reviewfood-62559",
+    "storage_bucket": "reviewfood-62559.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329422096259:android:23cfcb9a6c46e552b758b6",
+        "android_client_info": {
+          "package_name": "com.example.reviewfood"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn3nQJHiCq2bs2F_No_OK0_N1xHLsUfxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
