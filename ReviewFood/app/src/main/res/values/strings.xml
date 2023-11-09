@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ReviewFood</string>
+    <string name="navi_home">Home</string>
+    <string name="navi_favorite">Favorite</string>
+    <string name="navi_draft">Draft Archive</string>
+    <string name="navi_account">Account</string>
+    <string name="navi_my_profile">My Profile</string>
+    <string name="navi_change_password">Change Password</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+</resources>

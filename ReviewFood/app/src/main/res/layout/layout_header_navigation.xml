@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="@color/pink2"
+    android:orientation="vertical"
+    android:padding="17dp"
+    android:gravity="bottom">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/avatar"
+        tools:ignore="ContentDescription,HardcodedText,ImageContrastCheck" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Suhaoxinhtrai"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:text="xuanhoa711@gmail.com"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>
