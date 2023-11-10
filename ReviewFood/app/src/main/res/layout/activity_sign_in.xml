@@ -9,7 +9,7 @@
     android:gravity="center"
     tools:context=".SignInActivity">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="177dp"
         android:layout_height="159dp"
         android:src="@drawable/ravenous_kids" />

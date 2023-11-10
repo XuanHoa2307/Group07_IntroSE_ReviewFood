@@ -1,5 +1,10 @@
 package com.example.reviewfood;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultCaller;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,12 +15,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.InetAddresses;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.reviewfood.Fragment.ChangePassFragment;
@@ -27,10 +37,13 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DrawerLayout mDrawLayout;
 
+    public static final int MY_REQUEST_CODE = 10;
+    private DrawerLayout mDrawLayout;
 
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_FAVORITE = 1;
@@ -46,7 +59,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView txtName, txtMail;
 
 
-    //@SuppressLint("MissingInflatedId")
+
+
+
+    //--------------------------------------------------------------------
+    final private ProfileFragment profileFragment = new ProfileFragment();
+    final private ActivityResultLauncher<Intent> mActivityResultLauncher
+            = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode() == RESULT_OK){
+
+                Intent intent = result.getData();
+                if(intent == null){
+                    return;
+                }
+                Uri uri = intent.getData();
+                ProfileFragment.setUri(uri);
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    profileFragment.setBitmapImageView(bitmap);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if (id == R.id.navi_my_profile) {
             if(mCurrentFragment != FRAGMENT_PROFILE ) {
-                replaceFragment(new ProfileFragment());
+                replaceFragment(profileFragment);
                 mCurrentFragment = FRAGMENT_PROFILE;
             }
         }
@@ -149,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.commit();
     }
 
-    private void showUserInformation(){
+    public void showUserInformation(){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null){
@@ -176,4 +215,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode == MY_REQUEST_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                openGallery();
+            }
+            else{
+                Toast.makeText(this, "Cho phép cấp quyền sử dụng", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void openGallery(){
+
+        Intent intent = new Intent();
+        intent.setType("imagae/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+        mActivityResultLauncher.launch(Intent.createChooser(intent, "Select Picture"));
+
+    }
 }
