@@ -2,7 +2,6 @@ package com.example.reviewfood;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultCaller;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.InetAddresses;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,14 +23,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.reviewfood.Fragment.ChangePassFragment;
 import com.example.reviewfood.Fragment.DraftFragment;
 import com.example.reviewfood.Fragment.FavoriteFragment;
 import com.example.reviewfood.Fragment.HomeFragment;
 import com.example.reviewfood.Fragment.ProfileFragment;
+import com.example.reviewfood.Fragment.SettingFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_FAVORITE = 1;
     private static final int FRAGMENT_DRAFT = 2;
     private static final int FRAGMENT_PROFILE = 3;
-    private static final int FRAGMENT_CHANGE_PASS = 4;
+    private static final int FRAGMENT_SETTING = 4;
     private int mCurrentFragment = FRAGMENT_HOME;
 
     public static final int MY_REQUEST_CODE = 10;
@@ -145,10 +142,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mCurrentFragment = FRAGMENT_PROFILE;
             }
         }
-        else if (id == R.id.navi_change_password) {
-            if(mCurrentFragment != FRAGMENT_CHANGE_PASS ) {
-                replaceFragment(new ChangePassFragment());
-                mCurrentFragment = FRAGMENT_CHANGE_PASS;
+        else if (id == R.id.navi_setting) {
+            if(mCurrentFragment != FRAGMENT_SETTING ) {
+                replaceFragment(new SettingFragment());
+                mCurrentFragment = FRAGMENT_SETTING;
             }
         }
         else if (id == R.id.navi_sign_out) {

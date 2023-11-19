@@ -6,16 +6,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    android:gravity="center">
+    android:gravity="center"
+    tools:context=".SignInActivity">
 
     <ImageView
-        android:layout_width="167dp"
-        android:layout_height="159dp"
-        android:src="@drawable/user" />
+        android:layout_width="177dp"
+        android:layout_height="142dp"
+        android:src="@drawable/avatar_default" />
 
     <EditText
-        android:layout_marginTop="20dp"
-        android:id="@+id/edTxt_Email_SignUp"
+        android:id="@+id/edTxt_Email_Authentication"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email:"
@@ -26,7 +27,7 @@
         android:textColor="@color/black" />
 
     <EditText
-        android:id="@+id/edTxt_Password_SignUp"
+        android:id="@+id/edTxt_Password_Authentication"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -35,42 +36,45 @@
         android:minHeight="48dp"
         android:textColor="@color/black" />
 
-    <EditText
-        android:id="@+id/edTxt_ConfirmPass_SignUp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="Confirm password:"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:textColor="@color/black" />
-
     <Button
-        android:id="@+id/btn_ChangePass"
+        android:id="@+id/btn_Authentication"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Change Password"
-        android:layout_marginTop="24dp"
+        android:text="Authentication"
+        android:layout_marginTop="20dp"
         android:textSize="18dp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:backgroundTint="@color/blue"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="10dp"
-        android:layout_marginTop="15dp">
+        android:gravity="right"
+        android:layout_marginTop="10dp"
+        >
 
         <TextView
-            android:id="@+id/txt_HaveAccount"
+            android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I forgot password!"
-            android:textSize="18dp"
-            android:textColor="@color/pink"/>
-
+            android:layout_marginStart="20dp"
+            android:text="Forgot password?"
+            android:textColor="@color/blue"
+            android:textSize="17dp"/>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_Back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_marginTop="40dp"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue"/>
+
 </LinearLayout>

@@ -24,9 +24,9 @@
                 android:title="@string/navi_my_profile"
                 android:icon="@drawable/ic_profile"/>
 
-            <item android:id="@+id/navi_change_password"
-                android:title="@string/navi_change_password"
-                android:icon="@drawable/ic_change_password"/>
+            <item android:id="@+id/navi_setting"
+                android:title="@string/navi_setting"
+                android:icon="@drawable/ic_settings"/>
 
             <item android:id="@+id/navi_sign_out"
                 android:title="@string/navi_sign_out"

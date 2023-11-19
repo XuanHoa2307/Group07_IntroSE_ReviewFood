@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center">
+
+  <ImageView
+      android:layout_width="167dp"
+      android:layout_height="159dp"
+      android:src="@drawable/user" />
+
+  <Button
+      android:id="@+id/btn_ChangePassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Change Password"
+      android:layout_marginTop="100dp"
+      android:textSize="18dp"
+      android:textStyle="bold"
+      android:backgroundTint="@color/blue"/>
+
+  <Button
+      android:id="@+id/btn_Notifications"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:text="Notifications"
+      android:textSize="18dp"
+      android:textStyle="bold"
+      android:backgroundTint="@color/blue"/>
+
+  <Button
+      android:id="@+id/btn_delAccount"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:text="Delete Account"
+      android:textSize="18dp"
+      android:textStyle="bold"
+      android:backgroundTint="@color/orange"/>
+
+</LinearLayout>
