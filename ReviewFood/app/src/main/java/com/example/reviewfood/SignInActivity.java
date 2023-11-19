@@ -47,7 +47,6 @@ public class SignInActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         forgotPassword = findViewById(R.id.forgotPassword);
 
-
         initCheck();
 
         ClickForgotPassword();

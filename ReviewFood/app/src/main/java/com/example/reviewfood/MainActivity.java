@@ -41,8 +41,6 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    public static final int MY_REQUEST_CODE = 10;
     private DrawerLayout mDrawLayout;
 
     private static final int FRAGMENT_HOME = 0;
@@ -50,18 +48,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_DRAFT = 2;
     private static final int FRAGMENT_PROFILE = 3;
     private static final int FRAGMENT_CHANGE_PASS = 4;
-
-
     private int mCurrentFragment = FRAGMENT_HOME;
+
+    public static final int MY_REQUEST_CODE = 10;
 
     private NavigationView mNavigationView;
     private ImageView imgAvatar;
     private TextView txtName, txtMail;
 
-
-
     //--------------------------------------------------------------------
-    final private ProfileFragment profileFragment = new ProfileFragment();
+    final private ProfileFragment mProfileFragment = new ProfileFragment();
     final private ActivityResultLauncher<Intent> mActivityResultLauncher
             = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -73,10 +69,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
                 Uri uri = intent.getData();
-                ProfileFragment.setUri(uri);
+                mProfileFragment.setUri(uri);
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    profileFragment.setBitmapImageView(bitmap);
+                    mProfileFragment.setBitmapImageView(bitmap);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -118,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         replaceFragment(new HomeFragment());
         mNavigationView.getMenu().findItem(R.id.navi_home).setChecked(true);
 
-
     }
 
     // Xử lí sự kiện bấm vào các tác vụ
@@ -146,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if (id == R.id.navi_my_profile) {
             if(mCurrentFragment != FRAGMENT_PROFILE ) {
-                replaceFragment(new ProfileFragment());
+                replaceFragment(mProfileFragment);
                 mCurrentFragment = FRAGMENT_PROFILE;
             }
         }
@@ -162,8 +157,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             finishAffinity();
         }
-
-
 
         mDrawLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -193,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(user == null){
             return;
         }
-
         // set thong tin nguoi dung vao Menu hien thi
         String name = user.getDisplayName();
         String email = user.getEmail();
@@ -220,11 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(requestCode == MY_REQUEST_CODE){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
                 openGallery();
-            }
-            else{
-                Toast.makeText(this, "Cho phép cấp quyền sử dụng", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -232,9 +220,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void openGallery(){
 
         Intent intent = new Intent();
-        intent.setType("imagae/*");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-
         mActivityResultLauncher.launch(Intent.createChooser(intent, "Select Picture"));
 
     }

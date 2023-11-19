@@ -40,10 +40,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
 
-        // Su kien click Sign up account!
         ClickSignUpAccount();
 
-        // Su kien click da co account, back ve Sign In!
         BackSignIn_haveAccount();
     }
 

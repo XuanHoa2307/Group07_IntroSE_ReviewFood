@@ -51,12 +51,11 @@ public class ProfileFragment extends Fragment {
     private EditText edTxt_Fullname, edTxt_Email, edTxt_Birth;
     private Button btnSelect, btnUpdate;
     private Spinner genderSpinner;
-
     private Uri mUri;
-
     private ProgressDialog progressDialog;
 
-    private DatabaseReference mDatabase;
+    private MainActivity mMainActivity;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,11 +65,11 @@ public class ProfileFragment extends Fragment {
         edTxt_Fullname = mview.findViewById(R.id.edTxt_Fullname);
         edTxt_Email = mview.findViewById(R.id.edTxt_Email);
         edTxt_Birth = mview.findViewById(R.id.edTxt_Birth);
-
         btnSelect = mview.findViewById(R.id.btnSelect);
         genderSpinner = mview.findViewById(R.id.genderSpinner);
-
         btnUpdate = mview.findViewById(R.id.btnUpdate);
+
+        mMainActivity = (MainActivity) getActivity();
 
         progressDialog = new ProgressDialog(getActivity());
 
@@ -87,7 +86,6 @@ public class ProfileFragment extends Fragment {
         // show thong tin hien tai
         showUserInformationProfile();
 
-
         // update Information
         setUpdateInformation();
 
@@ -96,19 +94,16 @@ public class ProfileFragment extends Fragment {
     }
 
     public static class User {
-
         public String birthDay;
         public String genDer;
 
         public User() {
             // Default constructor required for calls to DataSnapshot.getValue(User.class)
         }
-
         public User(String birthDay, String genDer) {
             this.birthDay = birthDay;
             this.genDer = genDer;
         }
-
     }
 
     private void writeFirebase() {
@@ -143,8 +138,6 @@ public class ProfileFragment extends Fragment {
 
     private void readFirebase() {
 
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         String email = edTxt_Email.getText().toString().trim();
         String[] parts = email.split("@");
         String mail = parts[0]; // Phần trước dấu '@' trong email
@@ -161,10 +154,8 @@ public class ProfileFragment extends Fragment {
                 if (user != null) {
 
                     edTxt_Birth.setText(user.birthDay);
-                    Toast.makeText(getActivity(), "user khac null", Toast.LENGTH_SHORT).show();
                     ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) genderSpinner.getAdapter();
                     if (adapter != null) {
-                        Toast.makeText(getActivity(), "adapter khac null", Toast.LENGTH_SHORT).show();
                         int position = adapter.getPosition(user.genDer);
                         genderSpinner.setSelection(position);
                     }
@@ -180,44 +171,18 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    /*DatabaseReference ref = database.child("User").child(mail);
-                    Read from the database
-        ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                     This method is called once with the initial value and again
-                     whenever data at this location is updated.
-                    User user = dataSnapshot.getValue(User.class);
-                    String edTxt_Birth = user.getDayOfBirth();
-                    String Gender = user.getGender();
-
-                    ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) genderSpinner.getAdapter();
-                    int position = adapter.getPosition(Gender);
-
-                    genderSpinner.setSelection(position);
-
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    // Failed to read value
-                    Log.w(TAG, "Failed to read value.", error.toException());
-                }
-            });*/
-
-
     private void showUserInformationProfile(){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null){
             return;
         }
+
         Glide.with(getActivity()).load(user.getPhotoUrl()).error(R.drawable.avatar_default).into(imgAvatar);
         edTxt_Fullname.setText(user.getDisplayName());
         edTxt_Email.setText(user.getEmail());
 
         readFirebase();
-
     }
 
     private void setAvatar(){
@@ -231,20 +196,21 @@ public class ProfileFragment extends Fragment {
 
     private void onClickRequestPermission(){
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-
-        if(mainActivity == null){
+        if(mMainActivity == null){
             return;
         }
-
         // neu user da cho phep su dung cai nay
-        if(getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            mainActivity.openGallery();
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+            mMainActivity.openGallery();
         }
+        if(getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            mMainActivity.openGallery();
+        }
+
         else{ // chua cho phep thi phai ay
             String [] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
             getActivity().requestPermissions(permission, MY_REQUEST_CODE);
-            mainActivity.openGallery();
+            mMainActivity.openGallery();
         }
     }
 
@@ -252,8 +218,8 @@ public class ProfileFragment extends Fragment {
         imgAvatar.setImageBitmap(bitmapImageView);
     }
 
-    public static void setUri(Uri mUri) {
-        mUri = mUri;
+    public void setUri(Uri mUri) {
+        this.mUri = mUri;
     }
 
     private void setBirthday(){
@@ -301,7 +267,6 @@ public class ProfileFragment extends Fragment {
 
     private void onClickToUpdateProfile(){
 
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null){
             return;
@@ -326,8 +291,7 @@ public class ProfileFragment extends Fragment {
                         if (task.isSuccessful()) {
                             Toast.makeText(getActivity(), "Update profile success!", Toast.LENGTH_SHORT).show();
 
-                            MainActivity mainActivity = (MainActivity) getActivity();
-                            mainActivity.showUserInformation();
+                            mMainActivity.showUserInformation();
                         }
                     }
                 });
