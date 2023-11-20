@@ -51,6 +51,7 @@ public class SettingFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SignIn_ForAuthenticationActivity.class);
                 startActivity(intent);
+                Toast.makeText(getActivity(), "Vui lòng đăng nhập để xác nhận", Toast.LENGTH_SHORT).show();
             }
         });
     }

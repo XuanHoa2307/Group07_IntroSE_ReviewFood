@@ -156,7 +156,8 @@ public class SignInActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SignInActivity.this, "Nothing, waiting to do", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
             }
         });
     }
