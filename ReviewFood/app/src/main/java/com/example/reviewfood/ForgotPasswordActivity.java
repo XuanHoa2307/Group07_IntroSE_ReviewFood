@@ -85,6 +85,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                         if (task.isSuccessful()) {
                                                                             progressDialog.dismiss();
+                                                                            fireAuth.signOut();
                                                                             Toast.makeText(ForgotPasswordActivity.this, "Email sent, please check.", Toast.LENGTH_SHORT).show();
                                                                         }
                                                                     }
@@ -93,11 +94,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                                 }
                                                 else{
                                                     progressDialog.dismiss();
+                                                    fireAuth.signOut();
                                                     Toast.makeText(ForgotPasswordActivity.this, "Email is not existed, please check the email or sign up!", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                             else{
                                                 progressDialog.dismiss();
+                                                fireAuth.signOut();
                                                 Toast.makeText(ForgotPasswordActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -105,6 +108,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         }
                         else {
                             progressDialog.dismiss();
+                            fireAuth.signOut();
                             Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

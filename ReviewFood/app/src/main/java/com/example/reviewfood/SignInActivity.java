@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,7 +62,7 @@ public class SignInActivity extends AppCompatActivity {
 
         ClickForgotPassword();
 
-        SignInClick();
+        SignInApp();
 
         SignUpNowViewTxt();
     }
@@ -71,14 +72,13 @@ public class SignInActivity extends AppCompatActivity {
         layoutSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // chuyen qua Sign up
                 Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-    private void SignInClick(){
+    private void SignInApp(){
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,20 +87,29 @@ public class SignInActivity extends AppCompatActivity {
                 String password = edTxt_Password.getText().toString().trim();
 
                 if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(SignInActivity.this, "Vui lòng nhập đủ email, password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this, "Please enter full account and password information!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     progressDialog.show();
-                    authUser.setEmail(email);
-                    authUser.setPassword(Authentication.hashPass(password));
-
-                    fireAuth.signInWithEmailAndPassword(authUser.getEmail(), authUser.getPassword())
+                    fireAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-
                                     progressDialog.dismiss();
+
                                     if (task.isSuccessful()) {
+                                        authUser.setEmail(email);
+                                        authUser.setPassword(Authentication.hashPass(password));
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        String userUid = user.getUid();
+                                        fireStore.collection("Authentication")
+                                                 .document(userUid)
+                                                 .set(authUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        // update Data
+                                                    }
+                                                });
 
                                         if (checkRememberAcc.isChecked()) {
                                             saveCredentials(email, password);

@@ -72,26 +72,26 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
                 else {
                     progressDialog.show();
-                    String oldPassword = Authentication.hashPass(OldPassword);
-                    String newPassword = Authentication.hashPass(NewPassword);
-                    checkOldPasswordAndChange(oldPassword, newPassword);
+                    //String oldPassword = Authentication.hashPass(OldPassword);
+                    //String newPassword = Authentication.hashPass(NewPassword);
+                    checkOldPasswordAndChange(OldPassword, NewPassword);
                 }
             }
         });
     }
 
-    private void checkOldPasswordAndChange(String oldPassword, String newPassword) {
+    private void checkOldPasswordAndChange(String OldPassword, String NewPassword) {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        fireAuth.signInWithEmailAndPassword(user.getEmail(), oldPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        fireAuth.signInWithEmailAndPassword(user.getEmail(), OldPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    authUser.setEmail(user.getEmail());
-                    authUser.setPassword(newPassword);
-                    user.updatePassword(newPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    user.updatePassword(NewPassword).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(@NonNull Void unused){
+                            authUser.setEmail(user.getEmail());
+                            authUser.setPassword(Authentication.hashPass(NewPassword));
                             fireStore.collection("Authentication")
                                      .document(user.getUid())
                                      .update("password", authUser.getPassword()).addOnSuccessListener(new OnSuccessListener<Void>() {

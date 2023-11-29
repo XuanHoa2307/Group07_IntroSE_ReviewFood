@@ -74,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
                     authUser = new Authentication(strEmail, strPassword);
                     progressDialog.show();
 
-                    fireAuth.createUserWithEmailAndPassword(authUser.getEmail(), Authentication.hashPass(authUser.getPassword()))
+                    fireAuth.createUserWithEmailAndPassword(authUser.getEmail(), authUser.getPassword())
                             .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
