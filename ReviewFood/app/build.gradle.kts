@@ -50,6 +50,9 @@ dependencies {
 
     implementation("com.google.firebase:firebase-database")
 
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
+
     // load image from url
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 

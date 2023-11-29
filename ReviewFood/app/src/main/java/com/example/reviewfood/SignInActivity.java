@@ -24,6 +24,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -34,6 +37,9 @@ public class SignInActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private CheckBox checkRememberAcc;
 
+    FirebaseAuth fireAuth;
+    FirebaseFirestore fireStore;
+    Authentication authUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,10 @@ public class SignInActivity extends AppCompatActivity {
         layoutSignUp = findViewById(R.id.SignUp);
         progressDialog = new ProgressDialog(this);
         forgotPassword = findViewById(R.id.forgotPassword);
+
+        fireAuth = FirebaseAuth.getInstance();
+        fireStore = FirebaseFirestore.getInstance();
+        authUser = new Authentication();
 
         initCheck();
 
@@ -77,15 +87,14 @@ public class SignInActivity extends AppCompatActivity {
                 String password = edTxt_Password.getText().toString().trim();
 
                 if (email.isEmpty() || password.isEmpty()) {
-                    // Kiểm tra xem bất kỳ trường nào chưa được nhập
                     Toast.makeText(SignInActivity.this, "Vui lòng nhập đủ email, password", Toast.LENGTH_SHORT).show();
                 }
                 else{
-
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
-
                     progressDialog.show();
-                    auth.signInWithEmailAndPassword(email, password)
+                    authUser.setEmail(email);
+                    authUser.setPassword(Authentication.hashPass(password));
+
+                    fireAuth.signInWithEmailAndPassword(authUser.getEmail(), authUser.getPassword())
                             .addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -99,7 +108,6 @@ public class SignInActivity extends AppCompatActivity {
                                         else{
                                             clearCredentials();
                                         }
-
                                         // Sign in success, update UI with the signed-in user's information
                                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                         startActivity(intent);
@@ -107,10 +115,9 @@ public class SignInActivity extends AppCompatActivity {
                                         // dong tat ca cac activity trc khi dki account va vao giao dien thanh cong
                                         finishAffinity();
                                     }
-
                                     else {
                                         // If sign in fails, display a message to the user.
-                                        Toast.makeText(SignInActivity.this, "Authentication failed.",
+                                        Toast.makeText(SignInActivity.this, "Account and password are incorrect, please check again.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }

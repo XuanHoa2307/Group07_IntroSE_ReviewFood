@@ -14,13 +14,21 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private EditText edTxt_Email_ForgotPassword;
     private Button btnSentEmailForResetPassword, btnBackToSignIn;
     private ProgressDialog progressDialog;
+
+    FirebaseAuth fireAuth;
+    FirebaseFirestore fireStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +40,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
 
+        fireAuth = FirebaseAuth.getInstance();
+        fireStore = FirebaseFirestore.getInstance();
+
         ClickSentToEmailForResetPassword();
         ClickBackToLogIn();
 
@@ -42,28 +53,62 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FirebaseAuth auth = FirebaseAuth.getInstance();
                 String emailAddress = edTxt_Email_ForgotPassword.getText().toString().trim();
                 progressDialog.show();
 
-                auth.sendPasswordResetEmail(emailAddress)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-
-                                progressDialog.dismiss();
-
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(ForgotPasswordActivity.this, "Email sent, please check.", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    Toast.makeText(ForgotPasswordActivity.this, "Email does not exist, please check. ", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                checkExistedUserAndSend(emailAddress);
             }
         });
 
+    }
+
+    private void checkExistedUserAndSend(String Email) {
+
+        fireAuth.signInWithEmailAndPassword(getString(R.string.gmail), Authentication.hashPass(getString(R.string.pass)))
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            fireStore.collection("Authentication")
+                                     .whereEqualTo("email", Email)
+                                     .get()
+                                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                if (!task.getResult().isEmpty()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        fireAuth.signOut();
+                                                        fireAuth.sendPasswordResetEmail(Email)
+                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            progressDialog.dismiss();
+                                                                            Toast.makeText(ForgotPasswordActivity.this, "Email sent, please check.", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                                else{
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(ForgotPasswordActivity.this, "Email is not existed, please check the email or sign up!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                            else{
+                                                progressDialog.dismiss();
+                                                Toast.makeText(ForgotPasswordActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }
+                        else {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void ClickBackToLogIn(){
