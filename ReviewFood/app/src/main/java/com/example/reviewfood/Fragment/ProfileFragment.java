@@ -1,13 +1,14 @@
 package com.example.reviewfood.Fragment;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 import static com.example.reviewfood.MainActivity.MY_REQUEST_CODE;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -37,12 +38,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -51,10 +55,12 @@ public class ProfileFragment extends Fragment {
     private EditText edTxt_Fullname, edTxt_Email, edTxt_Birth;
     private Button btnSelect, btnUpdate;
     private Spinner genderSpinner;
-    private Uri mUri;
+    Uri imgAvtUri;
     private ProgressDialog progressDialog;
-
     private MainActivity mMainActivity;
+    FirebaseFirestore fireStore;
+    FirebaseAuth fireAuth;
+    StorageReference storageReference;
 
     @Nullable
     @Override
@@ -72,6 +78,9 @@ public class ProfileFragment extends Fragment {
         mMainActivity = (MainActivity) getActivity();
 
         progressDialog = new ProgressDialog(getActivity());
+
+        fireStore = FirebaseFirestore.getInstance();
+        fireAuth = FirebaseAuth.getInstance();
 
 
         // chon anh Avatar tu thu vien
@@ -93,80 +102,188 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    public static class User {
-        public String birthDay;
-        public String genDer;
+    private void writeFirebase(){
 
-        public User() {
-            // Default constructor required for calls to DataSnapshot.getValue(User.class)
-        }
-        public User(String birthDay, String genDer) {
-            this.birthDay = birthDay;
-            this.genDer = genDer;
-        }
-    }
-
-    private void writeFirebase() {
-
-        String birthDay;
-        String genDer;
-
+        String imgAvt, fullName, birthday, gender;
         String email = edTxt_Email.getText().toString().trim();
         String[] parts = email.split("@");
         String mail = parts[0]; // Phần trước dấu '@' trong email
 
-        // Write a message to the database
-        String UrlRealtimeDb = "https://reviewfood-24e45-default-rtdb.firebaseio.com/";
-        DatabaseReference database = FirebaseDatabase.getInstance().getReferenceFromUrl(UrlRealtimeDb);
-
+        if(edTxt_Fullname != null && edTxt_Fullname.getText() != null){
+            fullName = edTxt_Fullname.getText().toString().trim();
+        } else{
+            return;
+        }
 
         if(edTxt_Birth != null && edTxt_Birth.getText() != null) {
-            birthDay = edTxt_Birth.getText().toString();
+            birthday = edTxt_Birth.getText().toString().trim();
         } else {
             return;
         }
 
         if(genderSpinner != null && genderSpinner.getSelectedItem() != null) {
-            genDer = genderSpinner.getSelectedItem().toString();
+            gender = genderSpinner.getSelectedItem().toString();
         } else {
-            genDer = "Secret";
+            gender = "Secret";
         }
 
-        User user = new User(birthDay, genDer);
-        database.child(mail).setValue(user);
-    }
-
-    private void readFirebase() {
-
-        String email = edTxt_Email.getText().toString().trim();
-        String[] parts = email.split("@");
-        String mail = parts[0]; // Phần trước dấu '@' trong email
-
-        String UrlRealtimeDb = "https://reviewfood-24e45-default-rtdb.firebaseio.com/";
-        DatabaseReference database = FirebaseDatabase.getInstance().getReferenceFromUrl(UrlRealtimeDb);
-
-        DatabaseReference ref = database.child(mail);
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                User user = dataSnapshot.getValue(User.class);
-                if (user != null) {
-
-                    edTxt_Birth.setText(user.birthDay);
-                    ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) genderSpinner.getAdapter();
-                    if (adapter != null) {
-                        int position = adapter.getPosition(user.genDer);
-                        genderSpinner.setSelection(position);
-                    }
-                    else{
-                        Toast.makeText(getActivity(), "adapter null", Toast.LENGTH_SHORT).show();
+        //Update image of user
+        if (imgAvtUri != null) {
+            StorageReference imgAvtRef = storageReference.child("user_avatar").child(mail + ".jpg");
+            imgAvtRef.putFile(imgAvtUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        updateImage(task,imgAvtRef);
+                    } else {
+                        Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
+            });
+        }
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userUid = user.getUid();
+        DocumentReference authRef = fireStore.collection("Authentication").document(userUid);
+        DocumentReference userRef = fireStore.collection("User").document(userUid);
+
+        //Update fullname
+        userRef
+                .update("fullname", fullName)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Change fullname successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+        //Update birthday
+        userRef
+                .update("birthday", birthday)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Change birthday successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+        //Update gender
+        userRef
+                .update("gender", gender)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Change gender successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+
+        Toast.makeText(getActivity(), "Update profile success!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void updateImage(Task<UploadTask.TaskSnapshot> task, StorageReference imgAvtRef) {
+        imgAvtRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w(TAG, "Failed to read value.", error.toException());
+            public void onSuccess(@NonNull Uri uri) {
+                //  book.setImageUri(uri.toString());
+                //  docRef.update("imgAvt",uri.toString());
+                String userUid = fireAuth.getCurrentUser().getUid();
+                DocumentReference docRef = fireStore.collection("User").document(userUid);
+                docRef
+                        .update("imageUri", imgAvtUri.toString())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                mMainActivity.showUserInformation();
+                                //Toast.makeText(mMainActivity, "Upload image successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error updating document", e);
+                            }
+                        });
+            }
+        });}
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                imgAvtUri = result.getUri();
+                imgAvatar.setImageURI(imgAvtUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(getContext(), result.getError().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void readFirebase(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userUid = fireAuth.getCurrentUser().getUid();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Get and show current info of user
+        DocumentReference docRef = fireStore.collection("User").document(userUid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String imgAvt, email, fullName, birthday, gender;
+
+                        imgAvt = document.getString("imageUri");
+                        email = document.getString("email");
+                        fullName = document.getString("fullname");
+                        birthday = document.getString("birthday");
+                        gender = document.getString("gender");
+
+                        edTxt_Email.setText(email);
+                        edTxt_Fullname.setText(fullName);
+                        edTxt_Birth.setText(birthday);
+
+                        if (imgAvt != null) {
+                            Uri myUri = Uri.parse(imgAvt);
+                            Glide.with(getActivity()).load(myUri.toString()).error(R.drawable.avatar_default).into(imgAvatar);
+                        } else {
+                            Glide.with(getActivity()).load(R.drawable.avatar_default).into(imgAvatar);
+                        }
+
+                        ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) genderSpinner.getAdapter();
+                        if (adapter != null) {
+                            int position = adapter.getPosition(gender);
+                            genderSpinner.setSelection(position);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "adapter null", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
         });
     }
@@ -177,11 +294,6 @@ public class ProfileFragment extends Fragment {
         if(user == null){
             return;
         }
-
-        Glide.with(getActivity()).load(user.getPhotoUrl()).error(R.drawable.avatar_default).into(imgAvatar);
-        edTxt_Fullname.setText(user.getDisplayName());
-        edTxt_Email.setText(user.getEmail());
-
         readFirebase();
     }
 
@@ -189,38 +301,23 @@ public class ProfileFragment extends Fragment {
         imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickRequestPermission();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                        String [] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                        getActivity().requestPermissions(permission, MY_REQUEST_CODE);
+                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
+                    } else {
+                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
+                    }
+                } else {
+                    CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
+                }
             }
         });
     }
 
-    private void onClickRequestPermission(){
-
-        if(mMainActivity == null){
-            return;
-        }
-        // neu user da cho phep su dung cai nay
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-            mMainActivity.openGallery();
-        }
-        if(getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            mMainActivity.openGallery();
-        }
-
-        else{ // chua cho phep thi phai ay
-            String [] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
-            getActivity().requestPermissions(permission, MY_REQUEST_CODE);
-            mMainActivity.openGallery();
-        }
-    }
-
-    public void setBitmapImageView(Bitmap bitmapImageView){
-        imgAvatar.setImageBitmap(bitmapImageView);
-    }
-
-    public void setUri(Uri mUri) {
-        this.mUri = mUri;
-    }
 
     private void setBirthday(){
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -266,34 +363,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void onClickToUpdateProfile(){
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user == null){
-            return;
-        }
-
-        String Fullname = edTxt_Fullname.getText().toString().trim();
-
         writeFirebase();
-
-        progressDialog.show();
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(Fullname)
-                .setPhotoUri(mUri)
-                .build();
-
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        progressDialog.dismiss();
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getActivity(), "Update profile success!", Toast.LENGTH_SHORT).show();
-
-                            mMainActivity.showUserInformation();
-                        }
-                    }
-                });
+        mMainActivity.showUserInformation();
     }
 }

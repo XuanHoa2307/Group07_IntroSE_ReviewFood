@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -58,4 +60,8 @@ dependencies {
 
     // circle image
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation("com.squareup.picasso:picasso:2.5.2")
+    api ("com.theartofdev.edmodo:android-image-cropper:2.8.+")
+
 }

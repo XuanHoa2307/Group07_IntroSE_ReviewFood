@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Suhaoxinhtrai"
+        android:text="username"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:text="xuanhoa711@gmail.com"
+        android:text="email"
         android:textColor="@color/black"
         android:textSize="16sp"
         tools:ignore="HardcodedText" />

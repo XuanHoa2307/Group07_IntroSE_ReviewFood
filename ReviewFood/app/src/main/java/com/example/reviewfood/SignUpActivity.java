@@ -38,6 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseAuth fireAuth;
     FirebaseFirestore fireStore;
     Authentication authUser;
+    User userInf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         fireAuth = FirebaseAuth.getInstance();
         fireStore = FirebaseFirestore.getInstance();
         authUser = new Authentication();
+        userInf = new User();
 
         SignUpAccount();
 
@@ -98,8 +100,18 @@ public class SignUpActivity extends AppCompatActivity {
                                                     }
                                                 });
 
-                                        // User Information o day nua
-
+                                        userInf.setEmail(authUser.getEmail());
+                                        userInf.setFullname("");
+                                        userInf.setBirthday("");
+                                        userInf.setGender("");
+                                        fireStore.collection("User")
+                                                .document(userUid)
+                                                .set(userInf).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        Toast.makeText(SignUpActivity.this, "Add information successfully.", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
 
                                         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                         startActivity(intent);

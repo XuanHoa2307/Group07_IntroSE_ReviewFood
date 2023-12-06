@@ -1,9 +1,16 @@
 package com.example.reviewfood;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import static android.content.ContentValues.TAG;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,28 +20,22 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.example.reviewfood.Fragment.DraftFragment;
 import com.example.reviewfood.Fragment.FavoriteFragment;
 import com.example.reviewfood.Fragment.HomeFragment;
 import com.example.reviewfood.Fragment.ProfileFragment;
 import com.example.reviewfood.Fragment.SettingFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.io.IOException;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,36 +48,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_SETTING = 4;
     private int mCurrentFragment = FRAGMENT_HOME;
 
-    public static final int MY_REQUEST_CODE = 10;
+    public static final int MY_REQUEST_CODE = 123;
 
     private NavigationView mNavigationView;
     private ImageView imgAvatar;
     private TextView txtName, txtMail;
 
+    FirebaseAuth fireAuth;
+    FirebaseFirestore fireStore;
+    StorageReference storageReference;
+
     //--------------------------------------------------------------------
     final private ProfileFragment mProfileFragment = new ProfileFragment();
-    final private ActivityResultLauncher<Intent> mActivityResultLauncher
-            = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode() == RESULT_OK){
-
-                Intent intent = result.getData();
-                if(intent == null){
-                    return;
-                }
-                Uri uri = intent.getData();
-                mProfileFragment.setUri(uri);
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    mProfileFragment.setBitmapImageView(bitmap);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    });
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         imgAvatar = mNavigationView.getHeaderView(0).findViewById(R.id.imgAvatar);
         txtName = mNavigationView.getHeaderView(0).findViewById(R.id.txtName);
         txtMail = mNavigationView.getHeaderView(0).findViewById(R.id.txtMail);
+
+        fireAuth = FirebaseAuth.getInstance();
+        fireStore = FirebaseFirestore.getInstance();
 
         // Cài thanh toolbar và kết hợp với menu trượt tạo thành giao diện đóng mở
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -179,47 +165,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void showUserInformation(){
 
+        readInformation();
+    }
+
+    private void readInformation(){
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null){
             return;
         }
-        // set thong tin nguoi dung vao Menu hien thi
-        String name = user.getDisplayName();
-        String email = user.getEmail();
-        Uri photoUrl = user.getPhotoUrl();
+        String userUid = fireAuth.getCurrentUser().getUid();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        // Get and show current info of user
+        DocumentReference docRef = fireStore.collection("User").document(userUid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String imgAvt, email, fullName;
 
-        // check neu chua dat Name
-        if(name == null){
-            txtName.setVisibility(View.GONE);
-        }
-        else{
-            txtName.setVisibility(View.VISIBLE);
-            txtName.setText(name);
-        }
+                        imgAvt = document.getString("imageUri");
+                        email = document.getString("email");
+                        fullName = document.getString("fullname");
 
-        txtName.setText(name);
-        txtMail.setText(email);
-        Glide.with(this).load(photoUrl).error(R.drawable.avatar_default).into(imgAvatar);
+                        if(fullName == null){
+                            txtName.setVisibility(View.GONE);
+                        }
+                        else{
+                            txtName.setVisibility(View.VISIBLE);
+                            txtName.setText(fullName);
+                        }
+                        txtMail.setText(email);
+                        txtName.setText(fullName);
 
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if(requestCode == MY_REQUEST_CODE){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                openGallery();
+                        if (imgAvt != null) {
+                            Uri myUri = Uri.parse(imgAvt);
+                            Glide.with(MainActivity.this).load(myUri.toString()).error(R.drawable.avatar_default).into(imgAvatar);
+                        } else {
+                            Glide.with(MainActivity.this).load(R.drawable.avatar_default).into(imgAvatar);
+                        }
+                    }
+                    else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
-        }
+        });
     }
 
-    public void openGallery(){
 
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        mActivityResultLauncher.launch(Intent.createChooser(intent, "Select Picture"));
 
-    }
 }
