@@ -1,19 +1,16 @@
 package com.example.reviewfood;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,8 +19,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,12 +51,12 @@ public class SignUpActivity extends AppCompatActivity {
         authUser = new Authentication();
         userInf = new User();
 
-        SignUpAccount();
+        SignUpAccount(authUser);
 
         BackSignIn_haveAccount();
     }
 
-    private void SignUpAccount(){
+    private void SignUpAccount(Authentication authUser){
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +68,9 @@ public class SignUpActivity extends AppCompatActivity {
                 else {
                     String strEmail = edTxt_Email.getText().toString().trim();
                     String strPassword = edTxt_Password.getText().toString().trim();
-                    authUser = new Authentication(strEmail, strPassword);
+                    authUser.setEmail(strEmail);
+                    authUser.setPassword(strPassword);
+                    //authUser = new Authentication(strEmail, strPassword);
                     progressDialog.show();
 
                     fireAuth.createUserWithEmailAndPassword(authUser.getEmail(), authUser.getPassword())
