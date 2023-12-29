@@ -18,7 +18,7 @@ import com.example.reviewfood.R;
 public class SettingFragment extends Fragment {
 
     private View mView;
-    private Button btnChangePassword, btnDeleteAcc, btnNotification;
+    private Button btnChangePassword, btnFAQ, btnLogOut;
 
     @Nullable
     @Override
@@ -26,8 +26,8 @@ public class SettingFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_setting, container, false);
 
         btnChangePassword = mView.findViewById(R.id.btn_ChangePassword);
-        btnNotification = mView.findViewById(R.id.btn_Notifications);
-        btnDeleteAcc = mView.findViewById(R.id.btn_delAccount);
+        btnFAQ = mView.findViewById(R.id.btn_FAQ);
+        btnLogOut = mView.findViewById(R.id.btn_logOut);
 
         ClickToChangePassword();
 
@@ -49,7 +49,7 @@ public class SettingFragment extends Fragment {
     }
 
     private void ClickNotification(){
-        btnNotification.setOnClickListener(new View.OnClickListener() {
+        btnFAQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Nothing, waiting to do", Toast.LENGTH_SHORT).show();
@@ -58,7 +58,7 @@ public class SettingFragment extends Fragment {
     }
 
     private void ClickToDeleteAccount(){
-        btnDeleteAcc.setOnClickListener(new View.OnClickListener() {
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Nothing, waiting to do", Toast.LENGTH_SHORT).show();

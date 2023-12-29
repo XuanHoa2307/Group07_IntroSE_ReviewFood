@@ -24,13 +24,15 @@
                 android:title="@string/navi_my_profile"
                 android:icon="@drawable/ic_profile"/>
 
+            <item android:id="@+id/navi_notifications"
+                android:title="@string/navi_notification"
+                android:icon="@drawable/ic_notifications"/>
+
             <item android:id="@+id/navi_setting"
                 android:title="@string/navi_setting"
                 android:icon="@drawable/ic_settings"/>
 
-            <item android:id="@+id/navi_sign_out"
-                android:title="@string/navi_sign_out"
-                android:icon="@drawable/ic_log_out"/>
+
         </menu>
     </item>
 </menu>

@@ -6,84 +6,52 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <ScrollView
+    <EditText
+        android:id="@+id/searchBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
+        android:layout_height="80dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:autofillHints="xyz"
+        android:drawableEnd="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:elevation="3dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="  Search to find Food "
+        android:textSize="20dp"
+        android:textStyle="italic" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/searchBar"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:drawableEnd="@drawable/ic_favorite"
-                android:drawablePadding="8dp"
-                android:elevation="3dp"
-                android:ems="10"
-                android:hint="Search to find Food"
-                android:layout_margin="10dp"
-                android:textStyle="italic"
-                android:autofillHints="BookName"
-                android:focusable="false"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Gau gau"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recommendRecView"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="30dp"
-                android:text="Meo meo"
-                android:fontFamily="sans-serif-medium"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/newTrendingRecView"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"/>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnCreatePost"
+    <ImageButton
+        android:id="@+id/btn_CreatePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/ic_launcher_foreground"
-        android:visibility="visible"
-        app:backgroundTint="?attr/colorOnPrimary"
-        app:fabSize="auto"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="103dp"
+        android:src="@drawable/ic_post_review"
+        android:text="Post A Review"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/postReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="112dp"
+        android:text="POST A NEW REVIEW FOR EVERYONE!"
+        android:textSize="19dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        tools:ignore="HardcodedText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/postsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchBar"
+        android:layout_marginTop="70dp"/>
 
 </RelativeLayout>
