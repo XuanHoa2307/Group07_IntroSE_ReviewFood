@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/post_report_screen_copy">
+
+
+    <ImageButton
+        android:id="@+id/btnBackCommentReportDetail"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/backbutton"
+        />
+
+
+    <TextView
+        android:id="@+id/detailReportTiltle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Detail Report"
+        android:textSize="23dp"
+        android:textStyle="bold" />
+
+
+    <RelativeLayout
+        android:id="@+id/layout1_detail_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detailReportTiltle"
+        android:layout_margin="20dp"
+        android:background="@drawable/border_background"
+        android:padding="10dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/layout2_detail_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatarUserCommentDetailReport"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_background"
+                android:src="@drawable/avatar"/>
+
+            <TextView
+                android:id="@+id/nameUserCommentDetailReport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/avatarUserCommentDetailReport"
+                android:text="xuanhoa072"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:id="@+id/goToCommentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Go to comment"
+                android:textSize="16dp"
+                android:layout_alignParentRight="true"
+                android:textStyle="italic"
+                />
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/commentContentDetailReport"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout2_detail_report"
+            android:text="comment content"
+            android:textSize="16dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            />
+
+
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/detailCommentReportListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1_detail_report"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp" />
+
+</RelativeLayout>
