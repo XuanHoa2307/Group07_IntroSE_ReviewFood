@@ -1,46 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:gravity="center">
+    android:background="@color/blue_skye">
 
-  <ImageView
-      android:layout_width="167dp"
-      android:layout_height="159dp"
-      android:src="@drawable/user" />
-
-  <Button
-      android:id="@+id/btn_ChangePassword"
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Change Password"
-      android:layout_marginTop="100dp"
-      android:textSize="18dp"
-      android:textStyle="bold"
-      android:backgroundTint="@color/blue"/>
+      android:padding="17dp">
 
-  <Button
-      android:id="@+id/btn_FAQ"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
-      android:text="FAQ"
-      android:textSize="18dp"
-      android:textStyle="bold"
-      android:backgroundTint="@color/blue"/>
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_settings_2" />
 
-  <Button
-      android:id="@+id/btn_logOut"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Settings"
+        android:textColor="@color/white"
+        android:textSize="35dp"
+        android:textStyle="bold" />
+
+  </LinearLayout>
+
+  <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
-      android:text="Log out"
-      android:textSize="18dp"
-      android:textStyle="bold"
-      android:backgroundTint="@color/orange"/>
+      android:layout_height="500dp"
+      android:orientation="vertical"
+      android:background="@drawable/ic_shapebackground"
+      android:backgroundTint="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="13dp">
+
+      <de.hdodenhof.circleimageview.CircleImageView
+          android:id="@+id/imgAvatarSettings"
+          android:layout_width="50dp"
+          android:layout_height="60dp"
+          android:contentDescription="TODO"
+          android:layout_marginStart="7dp"
+          android:src="@drawable/avatar_default"
+          tools:ignore="ContentDescription,HardcodedText,ImageContrastCheck" />
+
+      <TextView
+          android:id="@+id/txtNameSettings"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginStart="13dp"
+          android:text="Username"
+          android:textColor="@color/black"
+          android:textSize="22dp"
+          android:textStyle="bold"
+          tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:orientation="vertical"
+        android:padding="7dp"
+        android:background="@drawable/ic_stroke_settings">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:padding="10dp"
+          android:layout_marginStart="12dp"
+          android:layout_marginTop="12dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/theme" />
+
+        <TextView
+            android:id="@+id/ChangeThemes"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_marginStart="17dp"
+            android:textSize="19dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Change Themes"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="70dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_nextt" />
+
+      </LinearLayout>
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:padding="10dp"
+          android:layout_marginStart="12dp"
+          android:layout_marginTop="22dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_change_pass" />
+
+        <TextView
+            android:id="@+id/ChangePassword"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_marginStart="17dp"
+            android:textSize="19dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Change Password"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="54dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_nextt" />
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:padding="10dp"
+          android:layout_marginStart="12dp"
+          android:layout_marginTop="22dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_faq" />
+
+        <TextView
+            android:id="@+id/FAQ"
+            android:layout_width="wrap_content"
+            android:layout_height="47dp"
+            android:layout_marginStart="17dp"
+            android:textSize="19dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="FAQ"
+            android:textColor="@color/black"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="173dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_nextt" />
+
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:padding="10dp"
+          android:layout_marginStart="17dp"
+          android:layout_marginTop="17dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="39dp"
+            android:src="@drawable/ic_log_out" />
+
+        <TextView
+            android:id="@+id/btn_LogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_gravity="center"
+            android:text="Log out"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/pink"/>
+
+      </LinearLayout>
+
+
+    </LinearLayout>
+
+  </LinearLayout>
 
 </LinearLayout>

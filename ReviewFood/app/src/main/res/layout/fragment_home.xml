@@ -8,19 +8,21 @@
 
     <EditText
         android:id="@+id/searchBar"
+        android:background="@drawable/ic_shapebackground"
+        android:backgroundTint="@color/grey"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="55dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="17dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
         android:autofillHints="xyz"
-        android:drawableEnd="@drawable/ic_search"
-        android:drawablePadding="8dp"
-        android:elevation="3dp"
+        android:drawableStart="@drawable/ic_search"
+        android:elevation="5dp"
+        android:padding="15dp"
         android:ems="10"
         android:focusable="false"
-        android:hint="  Search to find Food "
+        android:hint=" Tim kiem tren ReviewFood"
+        android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="italic" />
 
@@ -28,8 +30,8 @@
         android:id="@+id/btn_CreatePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="103dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="90dp"
         android:src="@drawable/ic_post_review"
         android:text="Post A Review"
         android:textSize="18dp"
@@ -39,11 +41,10 @@
         android:id="@+id/postReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="112dp"
-        android:text="POST A NEW REVIEW FOR EVERYONE!"
-        android:textSize="19dp"
-        android:textStyle="bold"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="97dp"
+        android:text="Hôm nay bạn muốn review gì?"
+        android:textSize="22dp"
         android:textColor="@color/black"
         tools:ignore="HardcodedText" />
 
@@ -52,6 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/searchBar"
-        android:layout_marginTop="70dp"/>
+        android:layout_marginTop="77dp"/>
 
 </RelativeLayout>

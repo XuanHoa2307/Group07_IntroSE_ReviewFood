@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText edTxt_Email, edTxt_Password, edTxt_Confirm_Password;
     private TextView txt_HaveAccount;
     private Button btn_SignUp;
+
+    private ImageView btn_back;
     private ProgressDialog progressDialog;
 
     FirebaseAuth fireAuth;
@@ -44,6 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
         edTxt_Confirm_Password = findViewById(R.id.edTxt_ConfirmPass_SignUp);
         btn_SignUp = findViewById(R.id.btn_SignUp);
         txt_HaveAccount = findViewById(R.id.txt_HaveAccount);
+        btn_back = findViewById(R.id.back_SignIn);
         progressDialog = new ProgressDialog(this);
 
         fireAuth = FirebaseAuth.getInstance();
@@ -54,6 +58,8 @@ public class SignUpActivity extends AppCompatActivity {
         SignUpAccount(authUser);
 
         BackSignIn_haveAccount();
+
+        BackSignInScreen();
     }
 
     private void SignUpAccount(Authentication authUser){
@@ -228,6 +234,17 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void BackSignInScreen(){
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finishAffinity();
             }
         });
     }

@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:background="@color/grey">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/avatarPost"
@@ -29,23 +31,34 @@
             android:text="username"
             android:textSize="20dp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             tools:ignore="HardcodedText,SpUsage" />
 
         <TextView
             android:id="@+id/timePost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
             android:text="02:07 - T7, 23/07/2022"
             android:textSize="17dp"
+            android:textColor="@color/black"
             tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/menuPost"
+            android:layout_width="37dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_menu_post"
+            tools:ignore="HardcodedText"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/captionPost"
@@ -54,7 +67,8 @@
             android:layout_marginTop="9dp"
             android:padding="4dp"
             android:text="~ Review thức ăn nhanh cho cả nhà! ~\n\n Quán ăn: Gà rán KFC.\n\n Món: Combo Hamburger và Gà kèm Cocacola.\n\n Cảm nhận: Hamburger mềm, topping đầy đủ ngon, ổn\n                      Gà rán giòn ngoài, trong mềm và ẩm.\n\n Địa chỉ: số 542 Võ Văn Ngân, Thủ Đức - TP.HCM"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 
@@ -62,70 +76,79 @@
         android:id="@+id/postImageView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:src="@drawable/garan"
         android:contentDescription="string_postImage"
-        android:layout_marginTop="10dp"/>
+        android:src="@drawable/garan"
+        android:background="@color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:padding="8dp"
-        android:gravity="left">
+        android:padding="5dp"
+        android:gravity="left"
+        android:background="@color/white"
+        android:layout_marginBottom="10dp">
 
         <ImageButton
             android:id="@+id/likeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_up_vote"/>
+            android:src="@drawable/ic_up_vote"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         <TextView
             android:id="@+id/likeCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123"
             android:textSize="19dp"
+            android:textColor="@color/black"
             android:layout_gravity="center_vertical"/>
 
         <ImageButton
             android:id="@+id/dislikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:src="@drawable/ic_down_vote"/>
+            android:layout_marginStart="22dp"
+            android:src="@drawable/ic_down_vote"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         <TextView
             android:id="@+id/dislikeCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="45"
             android:textSize="19dp"
+            android:textColor="@color/black"
             android:layout_gravity="center_vertical"/>
 
         <ImageButton
             android:id="@+id/commentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:src="@drawable/ic_comment"/>
+            android:layout_marginStart="22dp"
+            android:src="@drawable/ic_comment"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         <TextView
             android:id="@+id/commentCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="67"
             android:textSize="19dp"
+            android:textColor="@color/black"
             android:layout_gravity="center_vertical"/>
 
         <ImageButton
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:src="@drawable/ic_save_post"/>
+            android:layout_marginStart="22dp"
+            android:src="@drawable/ic_save_post"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         <TextView
             android:id="@+id/saveText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
+            android:textColor="@color/black"
             android:textSize="19dp"
             android:layout_gravity="center_vertical"/>
 

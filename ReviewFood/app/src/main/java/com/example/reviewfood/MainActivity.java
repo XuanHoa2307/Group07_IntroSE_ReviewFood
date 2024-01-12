@@ -2,7 +2,6 @@ package com.example.reviewfood;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.example.reviewfood.Fragment.DraftFragment;
 import com.example.reviewfood.Fragment.FavoriteFragment;
 import com.example.reviewfood.Fragment.HomeFragment;
+import com.example.reviewfood.Fragment.NotificationFragment;
 import com.example.reviewfood.Fragment.ProfileFragment;
 import com.example.reviewfood.Fragment.SettingFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_FAVORITE = 1;
     private static final int FRAGMENT_DRAFT = 2;
     private static final int FRAGMENT_PROFILE = 3;
-    private static final int FRAGMENT_SETTING = 4;
+    private static final int FRAGMENT_NOTIFICATION = 4;
+    private static final int FRAGMENT_SETTING = 5;
     private int mCurrentFragment = FRAGMENT_HOME;
 
     public static final int MY_REQUEST_CODE = 123;
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //--------------------------------------------------------------------
     final private ProfileFragment mProfileFragment = new ProfileFragment();
+
+    final private SettingFragment mSettingFragment = new SettingFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Cài thanh toolbar và kết hợp với menu trượt tạo thành giao diện đóng mở
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null){
+            getSupportActionBar().setTitle("");
+        }
 
         mDrawLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawLayout, toolbar,
@@ -128,17 +134,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mCurrentFragment = FRAGMENT_PROFILE;
             }
         }
-        else if (id == R.id.navi_setting) {
-            if(mCurrentFragment != FRAGMENT_SETTING ) {
-                replaceFragment(new SettingFragment());
-                mCurrentFragment = FRAGMENT_SETTING;
+        else if (id == R.id.navi_notifications) {
+            if(mCurrentFragment != FRAGMENT_NOTIFICATION) {
+                replaceFragment(new NotificationFragment());
+                mCurrentFragment = FRAGMENT_NOTIFICATION;
             }
         }
-        else if (id == R.id.navi_sign_out) {
-            FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, SignInActivity.class);
-            startActivity(intent);
-            finishAffinity();
+        else if (id == R.id.navi_setting) {
+            if(mCurrentFragment != FRAGMENT_SETTING ) {
+                replaceFragment(mSettingFragment);
+                mCurrentFragment = FRAGMENT_SETTING;
+            }
         }
 
         mDrawLayout.closeDrawer(GravityCompat.START);
@@ -216,6 +222,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
+
+    // code ...
+
+
 
 
 

@@ -7,4 +7,10 @@
     <color name="blue">#191970</color>
     <color name="orange">#FF6347</color>
     <color name="silver">#696969</color>
+    <color name="grey">#DDDDDD</color>
+    <color name="yellow">#FFA800</color>
+    <color name="blue_skye">#FF8aaae5</color>
+    <color name="blue_green">#00CCFF</color>
+    <color name="blue_2">#0000CC</color>
+
 </resources>
