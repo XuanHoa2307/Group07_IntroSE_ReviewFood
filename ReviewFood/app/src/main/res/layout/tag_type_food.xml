@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Type of food"
+        android:textSize="20sp"
+        android:drawableLeft="@drawable/arrow_back_ios"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textAlignment="center" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_button_mon_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Món mặn" />
+
+        <RadioButton
+            android:id="@+id/radio_button_mon_an_vat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Món ăn vặt" />
+
+        <RadioButton
+            android:id="@+id/radio_button_mon_chay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Món chay" />
+
+        <RadioButton
+            android:id="@+id/radio_button_mon_lau"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Món lẩu" />
+
+        <RadioButton
+            android:id="@+id/radio_button_mon_nuoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Món nước" />
+
+        <RadioButton
+            android:id="@+id/radio_button_mon_xao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Món xào" />
+
+    </RadioGroup>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="#0000a3"
+        android:text="Select" />
+
+</LinearLayout>
