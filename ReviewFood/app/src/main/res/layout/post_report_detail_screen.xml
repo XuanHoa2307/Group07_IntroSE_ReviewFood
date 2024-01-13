@@ -102,7 +102,6 @@
             android:layout_below="@+id/postContentDetailReport"
             android:layout_centerHorizontal="true" />`
 
-
     </RelativeLayout>
 
     <ListView
@@ -113,3 +112,5 @@
         android:layout_margin="20dp" />
 
 </RelativeLayout>
+
+

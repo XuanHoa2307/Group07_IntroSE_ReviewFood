@@ -1,22 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Favorite Post and Read Later"
-        android:layout_margin="15dp"/>
+    <ImageView
+        android:layout_width="143dp"
+        android:layout_height="53dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="69dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/favourite_word" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/readLaterRecView"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"/>
+    <ImageView
+        android:layout_width="143dp"
+        android:layout_height="53dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="-20dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/favourite" />
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="95dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="160dp"
+        android:background="@drawable/rectangle_3">
+
+        <RelativeLayout
+            android:layout_width="309dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="17dp">
+
+            <TextView
+                android:id="@+id/contentText"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:text="  Fresh_food"
+                android:textColor="#000000"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/contentText"
+                android:layout_marginTop="-2dp"
+                android:text="  Khởi đầu ngày mới..."
+                android:textColor="#000000"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/food_1" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="95dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="276dp"
+        android:background="@drawable/rectangle_3">
+
+        <RelativeLayout
+            android:layout_width="309dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="17dp">
+
+            <TextView
+                android:id="@+id/contentText1"
+                android:layout_width="305dp"
+                android:layout_height="wrap_content"
+                android:text="  User_name"
+                android:textColor="#000000"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/contentText1"
+                android:layout_marginTop="-2dp"
+                android:text="  Món bánh xèo..."
+                android:textColor="#000000"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/food_2" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
