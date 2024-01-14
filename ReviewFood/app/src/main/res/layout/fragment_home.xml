@@ -7,7 +7,7 @@
     android:fillViewport="true">
 
     <EditText
-        android:id="@+id/searchBar"
+        android:id="@+id/search_Bar"
         android:background="@drawable/ic_shapebackground"
         android:backgroundTint="@color/grey"
         android:layout_width="match_parent"
@@ -35,7 +35,8 @@
         android:src="@drawable/ic_post_review"
         android:text="Post A Review"
         android:textSize="18dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/postReview"
@@ -49,10 +50,11 @@
         tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/postsRecyclerView"
+        android:id="@+id/post_RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/searchBar"
-        android:layout_marginTop="77dp"/>
+        android:layout_below="@id/search_Bar"
+        android:layout_marginTop="77dp"
+        tools:ignore="UnknownId" />
 
 </RelativeLayout>

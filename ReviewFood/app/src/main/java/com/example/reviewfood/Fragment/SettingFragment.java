@@ -85,7 +85,7 @@ public class SettingFragment extends Fragment {
         }
         String userUid = fireAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
-        // Get and show current info of user
+
         DocumentReference docRef = fireStore.collection("User").document(userUid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -105,7 +105,6 @@ public class SettingFragment extends Fragment {
                             txtName.setVisibility(View.VISIBLE);
                             txtName.setText(fullName);
                         }
-
                         txtName.setText(fullName);
 
                         if (imgAvt != null) {

@@ -2,7 +2,6 @@ package com.example.reviewfood.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
-import static com.example.reviewfood.MainActivity.MY_REQUEST_CODE;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -201,7 +201,7 @@ public class ProfileFragment extends Fragment {
         imgAvtRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(@NonNull Uri uri) {
-                //  book.setImageUri(uri.toString());
+
                 //  docRef.update("imgAvt",uri.toString());
                 String userUid = fireAuth.getCurrentUser().getUid();
                 DocumentReference docRef = fireStore.collection("User").document(userUid);
@@ -303,16 +303,13 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-                        String [] permission = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                        getActivity().requestPermissions(permission, MY_REQUEST_CODE);
-                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
-                    } else {
-                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
+                        } else {
+                            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(getActivity());
+                        }
                     }
-                } else {
-                    CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
                 }
             }
         });
