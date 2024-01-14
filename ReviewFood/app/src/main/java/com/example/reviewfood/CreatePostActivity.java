@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private ImageView imgAvatarUser;
     private TextView fullNameUser;
     private ImageView btnCreatePost;
+    private ImageButton btnBack;
     String fullNameAuthor;
     String generatedIDPost;
     private ProgressDialog progressDialog;
@@ -77,6 +79,7 @@ public class CreatePostActivity extends AppCompatActivity {
         input_status = findViewById(R.id.edTxt_Status);
         imgPost = findViewById(R.id.imagePost);
 
+        btnBack = findViewById(R.id.btn_BackCreatePost);
         btnCreatePost = findViewById(R.id.btn_createPost);
 
         showUserInformationCreatePost();
@@ -98,8 +101,14 @@ public class CreatePostActivity extends AppCompatActivity {
                 createPost(post);
 
                 Toast.makeText(getBaseContext(), "Post Created Successfully.", Toast.LENGTH_SHORT).show();
-                //startActivity(new Intent(CreatePostActivity.this, CreatePostSuccess.class));
+            }
+        });
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CreatePostActivity.this, MainActivity.class));
+                finish();
             }
         });
 
@@ -136,7 +145,7 @@ public class CreatePostActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             }
-                        }, 5000);
+                        }, 2000);
                     } else {
                         Toast.makeText(CreatePostActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
