@@ -307,7 +307,7 @@ public class ProfileFragment extends Fragment {
                         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
                             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
                         } else {
-                            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(getActivity());
+                            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
                         }
                     }
                 }
