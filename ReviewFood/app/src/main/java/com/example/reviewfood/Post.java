@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Post extends PostId {
     private String author;
+    private String userID;
     private String status;
     private String imagePost;
     private Timestamp postTime;
@@ -26,8 +27,9 @@ public class Post extends PostId {
         isDisLiked = false;
     }
 
-    public Post(String author, String status, String imagePost, Timestamp postTime) {
+    public Post(String author, String userID, String status, String imagePost, Timestamp postTime) {
         this.author = author;
+        this.userID = userID;
         this.status = status;
         this.imagePost = imagePost;
         this.postTime = postTime;
@@ -42,6 +44,7 @@ public class Post extends PostId {
     public String getAuthor() {
         return author;
     }
+    public String getUserID() { return userID; }
     public String getStatus() {
         return status;
     }
@@ -71,6 +74,7 @@ public class Post extends PostId {
     public void setAuthor(String author) {
         this.author = author;
     }
+    public void setUserID(String userID) { this.userID = userID; }
     public void setStatus(String status) {
         this.status = status;
     }
@@ -80,6 +84,7 @@ public class Post extends PostId {
     public void setPostTime(Timestamp postTime) {
         this.postTime = postTime;
     }
+
 
     public void setLikeNumber(int likeNumber) {
         this.likeNumber = likeNumber;
@@ -96,5 +101,6 @@ public class Post extends PostId {
     public void setDislikeIDList(List<String> dislikeIDList) {
         this.dislikeIDList = dislikeIDList;
     }
+
 }
 
