@@ -14,8 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
 
@@ -87,6 +90,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         //cac chuc nang khac cua post : like, cmt, save,...
 
+        if (posts.get(position).getLikeIDList().contains(currentUserID)){
+            posts.get(position).isLiked = true;
+            posts.get(position).isDisLiked = false;
+            holder.like.setImageResource(R.drawable.ic_up_vote_on);
+            holder.dislike.setImageResource(R.drawable.ic_down_vote);
+        } else if (posts.get(position).getDislikeIDList().contains(currentUserID)) {
+            posts.get(position).isLiked = false;
+            posts.get(position).isDisLiked = true;
+            holder.like.setImageResource(R.drawable.ic_up_vote);
+            holder.dislike.setImageResource(R.drawable.ic_down_vote_on);
+        }
+        else {
+            posts.get(position).isLiked = false;
+            posts.get(position).isDisLiked = false;
+            holder.like.setImageResource(R.drawable.ic_up_vote);
+            holder.dislike.setImageResource(R.drawable.ic_down_vote);
+        }
+
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,11 +115,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     holder.like.setImageResource(R.drawable.ic_up_vote_on);
                     posts.get(position).isLiked = true;
                     posts.get(position).getLikeIDList().add(currentUserID);
+                    int currentLikeNumber = posts.get(position).getLikeNumber();
+                    posts.get(position).setLikeNumber(currentLikeNumber + 1);
+                    holder.countLike.setText(String.valueOf(posts.get(position).getLikeNumber()));
 
-                    holder.dislike.setImageResource(R.drawable.ic_down_vote);
-                    posts.get(position).isDisLiked = false;
-                    if (posts.get(position).getDislikeIDList().contains(currentUserID)) {
-                        posts.get(position).getDislikeIDList().remove(currentUserID);
+                    if (posts.get(position).isDisLiked == true) {
+                        holder.dislike.setImageResource(R.drawable.ic_down_vote);
+                        posts.get(position).isDisLiked = false;
+                        if (posts.get(position).getDislikeIDList().contains(currentUserID)) {
+                            posts.get(position).getDislikeIDList().remove(currentUserID);
+                        }
+                        int currentDisLikeNumber = posts.get(position).getDislikeNumber();
+                        posts.get(position).setDislikeNumber(currentDisLikeNumber - 1);
+                        holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
                     }
                 }
                 else {
@@ -106,6 +135,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     posts.get(position).isLiked = false;
                     posts.get(position).getLikeIDList().remove(currentUserID);
                 }
+
+                updateLikeDisLikeToCloud(position, postId);
             }
         });
 
@@ -116,11 +147,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     holder.dislike.setImageResource(R.drawable.ic_down_vote_on);
                     posts.get(position).isDisLiked = true;
                     posts.get(position).getDislikeIDList().add(currentUserID);
+                    int currentDisLikeNumber = posts.get(position).getDislikeNumber();
+                    posts.get(position).setDislikeNumber(currentDisLikeNumber + 1);
+                    holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
 
-                    holder.like.setImageResource(R.drawable.ic_up_vote);
-                    posts.get(position).isLiked = false;
-                    if (posts.get(position).getLikeIDList().contains(currentUserID)){
-                        posts.get(position).getLikeIDList().remove(currentUserID);
+                    if (posts.get(position).isLiked == true) {
+                        holder.like.setImageResource(R.drawable.ic_up_vote);
+                        posts.get(position).isLiked = false;
+                        if (posts.get(position).getLikeIDList().contains(currentUserID)) {
+                            posts.get(position).getLikeIDList().remove(currentUserID);
+                        }
+                        int currentLikeNumber = posts.get(position).getLikeNumber();
+                        posts.get(position).setLikeNumber(currentLikeNumber - 1);
+                        holder.countLike.setText(String.valueOf(posts.get(position).getLikeNumber()));
                     }
 
                 }
@@ -129,9 +168,38 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     posts.get(position).isDisLiked = false;
                     posts.get(position).getDislikeIDList().remove(currentUserID);
                 }
+
+                updateLikeDisLikeToCloud(position, postId);
             }
         });
 
+
+
+
+    }
+
+    private void updateLikeDisLikeToCloud(int position, String postId){
+        // Tạo một HashMap để chứa dữ liệu cần cập nhật
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("likeNumber", posts.get(position).getLikeNumber()); // newLikeNumber là giá trị mới của likeNumber
+        updateData.put("dislikeNumber", posts.get(position).getDislikeNumber());
+        updateData.put("likeIDList", posts.get(position).getLikeIDList()); // newListLikeID là danh sách mới của listLikeID
+        updateData.put("dislikeIDList", posts.get(position).getDislikeIDList());
+
+// Đường dẫn của bài viết cần cập nhật
+        String postDocumentPath = "Post/" + postId; // postId là id của bài viết cần cập nhật
+
+// Thực hiện cập nhật dữ liệu lên Firestore
+        fireStore.document(postDocumentPath)
+                .set(updateData, SetOptions.merge())
+                .addOnSuccessListener(aVoid -> {
+                    // Xử lý khi cập nhật thành công
+                    // Ví dụ: hiển thị thông báo hoặc thực hiện các thao tác khác
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý khi cập nhật thất bại
+                    // Ví dụ: hiển thị thông báo lỗi hoặc thực hiện các thao tác khác
+                });
     }
 
     @Override
