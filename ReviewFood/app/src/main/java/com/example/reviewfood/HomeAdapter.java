@@ -23,7 +23,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     FirebaseFirestore fireStore;
     String currentUserID;
-
     public HomeAdapter(Context context, List<Post> posts, String currentUserID) {
         this.context = context;
         this.posts = posts;
@@ -47,6 +46,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         //avatarAuthor tao them userName trong post de truy xuat lay avatar tu User.
         holder.fullNameAuthor.setText(posts.get(position).getAuthor());
         holder.timePost.setText(TimestampConverter.getTime(posts.get(position).getPostTime()));
+        holder.countLike.setText(String.valueOf(posts.get(position).getLikeNumber()));
+        holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
 
         holder.statusPost.setText(posts.get(position).getStatus());
         holder.statusPost.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +71,52 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         Glide.with(context).load(posts.get(position).getImagePost()).into(holder.imagePost);
 
         //cac chuc nang khac cua post : like, cmt, save,...
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (posts.get(position).isLiked == false){
+                    holder.like.setImageResource(R.drawable.ic_up_vote_on);
+                    posts.get(position).isLiked = true;
+                    posts.get(position).getLikeIDList().add(currentUserID);
+
+                    holder.dislike.setImageResource(R.drawable.ic_down_vote);
+                    posts.get(position).isDisLiked = false;
+                    if (posts.get(position).getDislikeIDList().contains(currentUserID)) {
+                        posts.get(position).getDislikeIDList().remove(currentUserID);
+                    }
+                }
+                else {
+                    holder.like.setImageResource(R.drawable.ic_up_vote);
+                    posts.get(position).isLiked = false;
+                    posts.get(position).getLikeIDList().remove(currentUserID);
+                }
+            }
+        });
+
+        holder.dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (posts.get(position).isDisLiked == false){
+                    holder.dislike.setImageResource(R.drawable.ic_down_vote_on);
+                    posts.get(position).isDisLiked = true;
+                    posts.get(position).getDislikeIDList().add(currentUserID);
+
+                    holder.like.setImageResource(R.drawable.ic_up_vote);
+                    posts.get(position).isLiked = false;
+                    if (posts.get(position).getLikeIDList().contains(currentUserID)){
+                        posts.get(position).getLikeIDList().remove(currentUserID);
+                    }
+
+                }
+                else {
+                    holder.dislike.setImageResource(R.drawable.ic_down_vote);
+                    posts.get(position).isDisLiked = false;
+                    posts.get(position).getDislikeIDList().remove(currentUserID);
+                }
+            }
+        });
+
     }
 
     @Override
