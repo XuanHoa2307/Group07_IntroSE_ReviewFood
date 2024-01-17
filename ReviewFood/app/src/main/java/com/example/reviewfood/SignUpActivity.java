@@ -104,7 +104,10 @@ public class SignUpActivity extends AppCompatActivity {
                                                 });
 
                                         userInf.setEmail(authUser.getEmail());
-                                        userInf.setFullname("");
+                                        String email = authUser.getEmail();
+                                        String[] parts = email.split("@");
+                                        String FullName = parts[0];
+                                        userInf.setFullname(FullName);
                                         userInf.setBirthday("");
                                         userInf.setGender("");
                                         fireStore.collection("User")
