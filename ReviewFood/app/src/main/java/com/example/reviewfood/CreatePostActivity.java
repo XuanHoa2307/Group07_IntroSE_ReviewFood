@@ -60,6 +60,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private ImageView btnCreatePost;
     private ImageButton btnBack;
     String fullNameAuthor;
+    String userIdAuthor;
     String generatedIDPost;
     private ProgressDialog progressDialog;
 
@@ -86,21 +87,25 @@ public class CreatePostActivity extends AppCompatActivity {
         setImagePost();
 
         get_fullNameAuthor();
+        get_userIdAuthor();
         btnCreatePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.show();
                 if (!validateStatus()) {
                     return;
                 }
                 Timestamp timestamp = new Timestamp(new Date());
                 post = new Post();
                 post.setAuthor(fullNameAuthor);
+                post.setUserID(userIdAuthor);
                 post.setStatus(input_status.getText().toString());
                 post.setImagePost("");
                 post.setPostTime(timestamp);
                 createPost(post);
-
+                progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Post Created Successfully.", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -118,9 +123,10 @@ public class CreatePostActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 generatedIDPost = documentReference.getId();
+                writeFirebasePost();
             }
         });
-        writeFirebasePost();
+
     }
 
     private void writeFirebasePost(){
@@ -130,7 +136,9 @@ public class CreatePostActivity extends AppCompatActivity {
         String mail = parts[0];
         //Update image of user
         if (imgPostUri != null) {
-            StorageReference imgPostRef = storageReference.child("image_post").child(mail + ".jpg");
+            String userFolder = mail + "_post";
+            String fileName = generatedIDPost + ".jpg";
+            StorageReference imgPostRef = storageReference.child("image_post").child(userFolder).child(fileName);
             imgPostRef.putFile(imgPostUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -161,7 +169,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
                 DocumentReference docRef = fireStore.collection("Post").document(generatedIDPost);
                 docRef
-                        .update("imagePost", imgPostUri.toString())
+                        .update("imagePost", uri.toString())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -271,6 +279,11 @@ public class CreatePostActivity extends AppCompatActivity {
                     }
             }
         });
+    }
+
+    private void get_userIdAuthor() {
+        String userId = fireAuth.getCurrentUser().getUid();
+        userIdAuthor = userId;
     }
 
     private boolean validateStatus() {

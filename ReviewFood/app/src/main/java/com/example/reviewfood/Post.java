@@ -4,14 +4,16 @@ import com.google.firebase.Timestamp;
 
 public class Post extends PostId {
     private String author;
+    private String userID;
     private String status;
     private String imagePost;
     private Timestamp postTime;
 
     public Post() {}
 
-    public Post(String author, String status, String imagePost, Timestamp postTime) {
+    public Post(String author, String userID, String status, String imagePost, Timestamp postTime) {
         this.author = author;
+        this.userID = userID;
         this.status = status;
         this.imagePost = imagePost;
         this.postTime = postTime;
@@ -20,6 +22,7 @@ public class Post extends PostId {
     public String getAuthor() {
         return author;
     }
+    public String getUserID() { return userID; }
     public String getStatus() {
         return status;
     }
@@ -34,6 +37,7 @@ public class Post extends PostId {
     public void setAuthor(String author) {
         this.author = author;
     }
+    public void setUserID(String userID) { this.userID = userID; }
     public void setStatus(String status) {
         this.status = status;
     }
@@ -43,5 +47,6 @@ public class Post extends PostId {
     public void setPostTime(Timestamp postTime) {
         this.postTime = postTime;
     }
+
 }
 

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     private List<Post> posts;
 
     FirebaseFirestore fireStore;
+
     String currentUserID;
 
     public HomeAdapter(Context context, List<Post> posts, String currentUserID) {
@@ -44,7 +46,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         String postId = posts.get(position).postId;
 
-        //avatarAuthor tao them userName trong post de truy xuat lay avatar tu User.
+        String userID = posts.get(position).getUserID();
+        if(userID != null){
+            fireStore.collection("User").document(userID).get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    String avatarUri = documentSnapshot.getString("imageUri");
+                    Glide.with(context).load(avatarUri).placeholder(R.drawable.avatar_default).into(holder.avatarAuthor);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Glide.with(context).load(R.drawable.avatar_default).into(holder.avatarAuthor);
+                }
+            });
+        }
+
         holder.fullNameAuthor.setText(posts.get(position).getAuthor());
         holder.timePost.setText(TimestampConverter.getTime(posts.get(position).getPostTime()));
 
@@ -65,9 +81,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
         });
 
-
-
         Glide.with(context).load(posts.get(position).getImagePost()).into(holder.imagePost);
+
 
         //cac chuc nang khac cua post : like, cmt, save,...
     }

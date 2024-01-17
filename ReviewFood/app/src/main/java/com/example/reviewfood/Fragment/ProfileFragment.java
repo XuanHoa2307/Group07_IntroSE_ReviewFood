@@ -206,7 +206,7 @@ public class ProfileFragment extends Fragment {
                 String userUid = fireAuth.getCurrentUser().getUid();
                 DocumentReference docRef = fireStore.collection("User").document(userUid);
                 docRef
-                        .update("imageUri", imgAvtUri.toString())
+                        .update("imageUri", uri.toString())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
