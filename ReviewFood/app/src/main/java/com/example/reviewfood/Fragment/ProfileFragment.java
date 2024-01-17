@@ -297,18 +297,16 @@ public class ProfileFragment extends Fragment {
         readFirebase();
     }
 
-    private void setAvatar(){
+    private void setAvatar() {
         imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
-                        } else {
-                            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
-                        }
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
+                    } else {
+                        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
+
                     }
                 }
             }

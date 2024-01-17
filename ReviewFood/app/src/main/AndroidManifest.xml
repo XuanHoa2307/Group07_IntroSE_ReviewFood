@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReviewFood">
         <activity
-            android:name=".CreatePostSuccess"
-            android:exported="false" />
-        <activity
             android:name=".CreatePostActivity"
             android:exported="false" />
         <activity
