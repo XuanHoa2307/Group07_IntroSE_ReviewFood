@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/white">
 
     <EditText
         android:id="@+id/search_Bar"
@@ -36,7 +37,8 @@
         android:text="Post A Review"
         android:textSize="18dp"
         android:textStyle="bold"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
+        android:backgroundTint="@color/grey"/>
 
     <TextView
         android:id="@+id/postReview"

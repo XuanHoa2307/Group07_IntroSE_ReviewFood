@@ -1,6 +1,8 @@
 package com.example.reviewfood;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,16 +65,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             });
         }
 
+        int currentCmtNumber = posts.get(position).getCommentList().size();
+        posts.get(position).setCommentNumber(currentCmtNumber);
+
         holder.fullNameAuthor.setText(posts.get(position).getAuthor());
         holder.timePost.setText(TimestampConverter.getTime(posts.get(position).getPostTime()));
         holder.countLike.setText(String.valueOf(posts.get(position).getLikeNumber()));
         holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
+        holder.countCmt.setText(String.valueOf(posts.get(position).getCommentNumber()));
 
         holder.statusPost.setText(posts.get(position).getStatus());
         holder.statusPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clickedPosition = holder.getAdapterPosition();
+                /*int clickedPosition = holder.getAdapterPosition();
                 if (clickedPosition != RecyclerView.NO_POSITION) {
                     if (holder.statusPost.getMaxLines() == Integer.MAX_VALUE) {
                         holder.statusPost.setMaxLines(3);
@@ -81,7 +87,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                         holder.statusPost.setMaxLines(Integer.MAX_VALUE);
                         holder.statusPost.setText(posts.get(clickedPosition).getStatus() + "   ~ Thu gọn ~");
                     }
+                }*/
+                boolean expanded = false;
+                if (expanded) {
+                    // Giảm số dòng hiển thị khi đã mở rộng
+                    holder.statusPost.setMaxLines(3);
+                    holder.statusPost.setEllipsize(TextUtils.TruncateAt.END);
+                } else {
+                    // Hiển thị toàn bộ nội dung khi chưa mở rộng
+                    holder.statusPost.setMaxLines(Integer.MAX_VALUE);
+                    holder.statusPost.setEllipsize(null);
                 }
+                expanded = !expanded;
             }
         });
 
@@ -175,6 +192,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
 
 
+        // comment
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent commentIntent = new Intent(context, CommentActivity.class);
+                commentIntent.putExtra("postId", posts.get(position).postId);
+                context.startActivity(commentIntent);
+            }
+        });
 
     }
 
