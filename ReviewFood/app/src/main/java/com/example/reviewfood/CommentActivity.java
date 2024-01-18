@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -90,9 +91,6 @@ public class CommentActivity extends AppCompatActivity {
             postId = intent.getStringExtra("postId");
         }
 
-
-
-
         readInformation();
         listenDataChange();
         get_fullNameUser();
@@ -100,6 +98,18 @@ public class CommentActivity extends AppCompatActivity {
         handleButtonClick();
     }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        // Xử lý sự kiện khi một mục trong context menu được chọn
+
+        int id = item.getItemId();
+        if(id == R.id.menu_delete_comment){
+            handleDeleteComment(item.getGroupId());
+        }
+
+            return super.onContextItemSelected(item);
+
+    }
 
     void handleButtonClick(){
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +189,39 @@ public class CommentActivity extends AppCompatActivity {
     }*/
 
 
+    private void handleDeleteComment(int position) {
+        // Kiểm tra xem vị trí có hợp lệ không
+        if (position < 0 || position >= commentList.size()) {
+            return;
+        }
+
+        // Lấy thông tin của bình luận từ danh sách
+        Comment deletedComment = commentList.get(position);
+
+        // Lấy DocumentReference của bình luận cần xóa
+        DocumentReference commentRef = fireStore.collection("Comment").document(deletedComment.commentId);
+
+        // Xóa bình luận từ Firestore
+        commentRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Nếu xóa thành công, cập nhật RecyclerView bằng cách xóa khỏi danh sách và thông báo Adapter
+                        commentList.remove(deletedComment);
+                        commentAdapter.notifyItemRemoved(position);
+                        Toast.makeText(CommentActivity.this, "Bình luận đã được xóa", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Xử lý khi xóa thất bại
+                        Toast.makeText(CommentActivity.this, "Xóa bình luận thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
     public void listenDataChange() {
 
         fireStore.collection("Comment")
@@ -218,15 +261,6 @@ public class CommentActivity extends AppCompatActivity {
                                             }
                                             break;
 
-                                        case REMOVED:
-                                            // Xóa comment khỏi danh sách nếu bị xóa từ Firestore
-                                            for (int i = 0; i < commentList.size(); i++) {
-                                                if (commentList.get(i).commentId.equals(commentId)) {
-                                                    commentList.remove(i);
-                                                    break;
-                                                }
-                                            }
-                                            break;
                                     }
                                 }
 
