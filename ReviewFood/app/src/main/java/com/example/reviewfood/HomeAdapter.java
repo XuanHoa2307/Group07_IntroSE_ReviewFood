@@ -68,6 +68,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         int currentCmtNumber = posts.get(position).getCommentList().size();
         posts.get(position).setCommentNumber(currentCmtNumber);
 
+        int currentLikeNumber = posts.get(position).getLikeIDList().size();
+        posts.get(position).setLikeNumber(currentLikeNumber);
+
+        int currentDislikeNumber = posts.get(position).getDislikeIDList().size();
+        posts.get(position).setDislikeNumber(currentDislikeNumber);
+
         holder.fullNameAuthor.setText(posts.get(position).getAuthor());
         holder.timePost.setText(TimestampConverter.getTime(posts.get(position).getPostTime()));
         holder.countLike.setText(String.valueOf(posts.get(position).getLikeNumber()));
@@ -151,6 +157,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     holder.like.setImageResource(R.drawable.ic_up_vote);
                     posts.get(position).isLiked = false;
                     posts.get(position).getLikeIDList().remove(currentUserID);
+                    int currentLikeNumber = posts.get(position).getLikeNumber();
+                    posts.get(position).setLikeNumber(currentLikeNumber - 1);
                 }
 
                 updateLikeDisLikeToCloud(position, postId);
@@ -184,6 +192,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     holder.dislike.setImageResource(R.drawable.ic_down_vote);
                     posts.get(position).isDisLiked = false;
                     posts.get(position).getDislikeIDList().remove(currentUserID);
+                    int currentDisLikeNumber = posts.get(position).getDislikeNumber();
+                    posts.get(position).setDislikeNumber(currentDisLikeNumber - 1);
                 }
 
                 updateLikeDisLikeToCloud(position, postId);
