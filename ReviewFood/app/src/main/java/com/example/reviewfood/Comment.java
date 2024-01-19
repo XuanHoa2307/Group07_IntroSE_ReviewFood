@@ -1,4 +1,4 @@
-package com.example.reviewfood.Comment;
+package com.example.reviewfood;
 
 import com.google.firebase.Timestamp;
 

@@ -1,9 +1,12 @@
 package com.example.reviewfood;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+
 import android.text.TextUtils;
 import android.view.ContextMenu;
+
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +31,18 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
@@ -60,7 +76,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HomeViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         String postId = posts.get(position).postId;
 
@@ -94,6 +110,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
         holder.countCmt.setText(String.valueOf(posts.get(position).getCommentNumber()));
 
+
         holder.statusPost.setText(posts.get(position).getStatus());
         holder.statusPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +138,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
 
         //cac chuc nang khac cua post : like, cmt, save,...
+
 
         if (posts.get(position).getLikeIDList().contains(currentUserID)){
             posts.get(position).isLiked = true;
@@ -224,6 +242,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
         });
 
+
         holder.btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,7 +250,48 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
         });
 
+
+
+        // Check save post before
+        fireStore.collection("User/" + currentUserID + "/Favorite Post").document(postId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error == null) {
+                    if (value.exists()) {
+                        holder.save.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.blue_skye), android.graphics.PorterDuff.Mode.SRC_IN);
+                    } else {
+                        holder.save.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN);
+                    }
+                }
+            }
+        });
+
+
+        holder.save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fireStore.collection("User/" + currentUserID + "/Favorite Post").document(postId).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (!task.getResult().exists()) {
+                                    Map<String, Object> saveTime = new HashMap<>();
+                                    saveTime.put("saveTime", FieldValue.serverTimestamp());
+                                    fireStore.collection("User/" + currentUserID + "/Favorite Post").document(postId).set(saveTime);
+                                    holder.save.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.blue_skye), android.graphics.PorterDuff.Mode.SRC_IN);
+                                } else
+                                    Toast.makeText(context, "User saved this post before.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+
+
+
+
+
     }
+
 
     private void showPopupMenu(View view, int position) {
         PopupMenu popupMenu = new PopupMenu(context, view);

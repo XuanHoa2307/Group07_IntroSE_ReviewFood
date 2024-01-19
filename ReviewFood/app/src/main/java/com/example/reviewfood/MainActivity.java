@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseFirestore fireStore;
     StorageReference storageReference;
 
+    String currentUserId;
+
     //--------------------------------------------------------------------
     final private ProfileFragment mProfileFragment = new ProfileFragment();
     final private SettingFragment mSettingFragment = new SettingFragment();
@@ -92,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         // ------------------
 
+        currentUserId = fireAuth.getCurrentUser().getUid();
+
         // set thong tin len Header navigation
         showUserInformation();
 
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if (id == R.id.navi_favorite){
             if(mCurrentFragment != FRAGMENT_FAVORITE ){
-                replaceFragment(new FavoriteFragment());
+                replaceFragment(new FavoriteFragment(this, currentUserId));
                 mCurrentFragment = FRAGMENT_FAVORITE;
             }
         }
@@ -160,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
 
     private void replaceFragment(Fragment fragment){
 

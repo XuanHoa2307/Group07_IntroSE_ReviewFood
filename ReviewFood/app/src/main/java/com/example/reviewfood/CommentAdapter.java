@@ -1,11 +1,10 @@
-package com.example.reviewfood.Comment;
+package com.example.reviewfood;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,9 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.reviewfood.CommentActivity;
-import com.example.reviewfood.R;
-import com.example.reviewfood.TimestampConverter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 

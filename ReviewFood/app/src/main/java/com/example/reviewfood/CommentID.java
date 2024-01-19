@@ -1,4 +1,4 @@
-package com.example.reviewfood.Comment;
+package com.example.reviewfood;
 
 import androidx.annotation.NonNull;
 
