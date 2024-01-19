@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 
@@ -77,6 +78,22 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
+
+        SharedPreferences preferences = context.getSharedPreferences("AdminPreferences", Context.MODE_PRIVATE);
+        boolean isAdmin = preferences.getBoolean("isAdmin", false);
+
+        // Neu la admin thi khong cho like, dislike
+        if (isAdmin){
+            holder.like.setEnabled(false);
+            holder.dislike.setEnabled(false);
+            holder.save.setEnabled(false);
+        }
+        else {
+            holder.like.setEnabled(true);
+            holder.dislike.setEnabled(true);
+            holder.save.setEnabled(true);
+        }
 
         String postId = posts.get(position).postId;
 
@@ -458,6 +475,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             countCmt = view.findViewById(R.id.comment_Count);
             save = view.findViewById(R.id.save_Btn);
             txtSave = view.findViewById(R.id.save_Text);
+
+
+
         }
     }
 }

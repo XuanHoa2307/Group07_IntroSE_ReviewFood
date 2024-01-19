@@ -2,7 +2,9 @@ package com.example.reviewfood;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,6 +71,7 @@ public class CommentActivity extends AppCompatActivity {
     private int commentNumber = 0;
     private List<String> commentIDList = new ArrayList<>();
     private OnCommentCreatedListener onCommentCreatedListener;
+    private ConstraintLayout typeCommentLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,8 +85,17 @@ public class CommentActivity extends AppCompatActivity {
             commentIDList = intent.getStringArrayListExtra("commentIDList");
         }
 
+        typeCommentLayout = findViewById(R.id.typeCommentLayout);
+        SharedPreferences preferences = getSharedPreferences("AdminPreferences", Context.MODE_PRIVATE);
+        boolean isAdmin = preferences.getBoolean("isAdmin", false);
 
-
+        // Neu la admin thi khong cho dang bai
+        if (isAdmin){
+            typeCommentLayout.setVisibility(View.GONE);
+        }
+        else {
+            typeCommentLayout.setVisibility(View.VISIBLE);
+        }
 
         btnBack = findViewById(R.id.back_commentPost);
         btnSend = findViewById(R.id.btnSendCmt);
