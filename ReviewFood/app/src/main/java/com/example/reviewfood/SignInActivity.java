@@ -91,7 +91,7 @@ public class SignInActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     progressDialog.dismiss();
-
+                                    // check if task okay
                                     if (task.isSuccessful()) {
                                         authUser.setEmail(email);
                                         authUser.setPassword(Authentication.hashPass(password));
