@@ -26,7 +26,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private Context context;
     private List<Comment> comments;
-
     FirebaseFirestore fireStore;
 
     String currentUserID;
@@ -36,10 +35,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.fireStore = FirebaseFirestore.getInstance();
         this.currentUserID = currentUserID;
     }
-
-
-
-
 
     @NonNull
     @Override
