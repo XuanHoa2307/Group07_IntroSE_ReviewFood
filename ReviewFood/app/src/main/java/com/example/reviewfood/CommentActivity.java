@@ -77,6 +77,7 @@ public class CommentActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_post);
+
         fireAuth = FirebaseAuth.getInstance();
         fireStore = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
@@ -86,6 +87,7 @@ public class CommentActivity extends AppCompatActivity {
         }
 
         typeCommentLayout = findViewById(R.id.typeCommentLayout);
+
         SharedPreferences preferences = getSharedPreferences("AdminPreferences", Context.MODE_PRIVATE);
         boolean isAdmin = preferences.getBoolean("isAdmin", false);
 
@@ -124,16 +126,20 @@ public class CommentActivity extends AppCompatActivity {
     }
 
 
+
     private int currentLongPressedCommentPosition = -1;
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+
         if (currentLongPressedCommentPosition != -1) {
             int id = item.getItemId();
-            if (id == R.id.menu_delete_comment){
-                    handleDeleteComment(currentLongPressedCommentPosition);
-                    return true;
+            if (id == R.id.menu_delete_comment_admin || id == R.id.menu_delete_comment){
+                handleDeleteComment(currentLongPressedCommentPosition);
+                return true;
             }
+
         }
 
         return super.onContextItemSelected(item);

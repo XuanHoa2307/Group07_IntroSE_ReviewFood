@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.example.reviewfood.Fragment.HomeFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,6 +54,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
 
@@ -263,7 +266,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu(v, position);
+                if (isAdmin){
+                    showPopupMenuAdmin(v, position);
+                }
+                else {
+                    showPopupMenu(v, position);
+                }
             }
         });
 
@@ -303,10 +311,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
         });
 
-
-
-
-
     }
 
 
@@ -332,6 +336,28 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     return true;
                 }
                 else if (id == R.id.menu_edit_post){
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        // Hiển thị PopupMenu
+        popupMenu.show();
+    }
+
+    private void showPopupMenuAdmin(View view, int position) {
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.post_context_menu_admin, popupMenu.getMenu());
+
+        // Đăng ký sự kiện cho các mục menu
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.menu_delete_post_admin){
+                    handleDeletePost(position);
                     return true;
                 }
                 return false;
@@ -368,6 +394,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 })
                 .addOnFailureListener(e -> {
                     // Xử lý khi có lỗi xảy ra trong quá trình lấy dữ liệu
+                    Log.d("test", e.toString());
                 });
 
         // Xóa bình luận từ Firestore
@@ -392,6 +419,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     }
                 });
     }
+
+
 
     private void deleteCommentOfPost(String cmtId){
         DocumentReference commentRef = fireStore.collection("Comment").document(cmtId);
@@ -420,6 +449,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         updateData.put("dislikeNumber", posts.get(position).getDislikeNumber());
         updateData.put("likeIDList", posts.get(position).getLikeIDList()); // newListLikeID là danh sách mới của listLikeID
         updateData.put("dislikeIDList", posts.get(position).getDislikeIDList());
+
 
 // Đường dẫn của bài viết cần cập nhật
         String postDocumentPath = "Post/" + postId; // postId là id của bài viết cần cập nhật

@@ -1,6 +1,7 @@
 package com.example.reviewfood;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -47,6 +48,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
 
+        SharedPreferences preferences = context.getSharedPreferences("AdminPreferences", Context.MODE_PRIVATE);
+        boolean isAdmin = preferences.getBoolean("isAdmin", false);
+
+
         String commentId = comments.get(position).commentId;
 
         String userID = comments.get(position).getUserID();
@@ -91,10 +96,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                 MenuInflater inflater = ((CommentActivity) context).getMenuInflater();
-                inflater.inflate(R.menu.comment_context_menu, menu);
+                if (isAdmin){
+                    inflater.inflate(R.menu.comment_context_menu_admin, menu);
+                }
+                else {
+                    inflater.inflate(R.menu.comment_context_menu, menu);
+                    // Nếu bình luận không thuộc về người dùng hiện tại, ẩn menu xóa
+                    menu.findItem(R.id.menu_delete_comment).setVisible(isCurrentUserComment);
+                }
 
-                // Nếu bình luận không thuộc về người dùng hiện tại, ẩn menu xóa
-                menu.findItem(R.id.menu_delete_comment).setVisible(isCurrentUserComment);
+
             }
         });
 
