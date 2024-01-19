@@ -55,6 +55,9 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
 
+    implementation ("com.google.firebase:firebase-auth:22.3.0")
+    implementation ("com.google.android.gms:play-services-gcm:17.0.0")
+
     // load image from url
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
