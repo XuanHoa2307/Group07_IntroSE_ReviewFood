@@ -3,22 +3,79 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        >
+        <ImageButton
+            android:id="@+id/Search"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/backbutton" />
 
-    <ImageView
-        android:layout_width="143dp"
-        android:layout_height="53dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="97dp"
-        android:layout_marginTop="70dp"
-        android:src="@drawable/favourite_word" />
+        <EditText
+            android:id="@+id/searchText"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="  số 505, đường Nguyễn Cư Trinh "
+            android:textColor="#000000"
+            android:textSize="23dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="3dp"
+            android:textStyle="bold"
+            android:background="#C0C0C0" />
 
-    <ImageView
-        android:layout_width="143dp"
-        android:layout_height="53dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="-20dp"
-        android:layout_marginTop="70dp"
-        android:src="@drawable/favourite" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp" >
+        <ImageButton
+            android:id="@+id/filter_search"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/filter_ic" />
+
+        <TextView
+            android:id="@+id/filter_t"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="250dp"
+            android:layout_marginBottom="3dp"
+            android:background="#C0C0C0"
+            android:text="  Tp.HCM"
+            android:textColor="#000000"
+            android:textSize="23dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/filter_t2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="158dp"
+            android:layout_marginBottom="3dp"
+            android:background="#C0C0C0"
+            android:text="  Ăn vặt"
+            android:textColor="#000000"
+            android:textSize="23dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="400dp"
@@ -111,6 +168,7 @@
             android:src="@drawable/food_2" />
 
     </RelativeLayout>
+
 
 
 </RelativeLayout>

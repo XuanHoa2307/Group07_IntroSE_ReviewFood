@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="70dp"
+        android:text="Notification"
+        android:textSize="50dp" />
+
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/notification"
+        android:layout_marginTop="20dp">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/comment_ic" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/text1"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-22dp"
+            android:layout_marginRight="5dp"
+            android:text="1 min ago"
+            android:textSize="17dp" />
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentCenter="true"
+            android:layout_marginLeft="97dp"
+            android:text="nhatkhoa088"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text1"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentCenter="true"
+            android:layout_marginLeft="97dp"
+            android:layout_marginRight="20dp"
+            android:text="and 33 others commented on your post"
+            android:textSize="18dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/notification"
+        android:layout_marginTop="113dp">
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/text2"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-22dp"
+            android:layout_marginRight="5dp"
+            android:text="35 min ago"
+            android:textSize="17dp" />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/dislike_ic" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentCenter="true"
+            android:layout_marginLeft="97dp"
+            android:text="xuanhoa072"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text2"
+            android:layout_alignParentCenter="true"
+            android:layout_marginLeft="97dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:text="and 12 others disliked your post"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/notification"
+        android:layout_marginTop="208dp">
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/text3"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-22dp"
+            android:layout_marginRight="5dp"
+            android:text="10 hrs ago"
+            android:textSize="17dp" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/like_ic" />
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentCenter="true"
+            android:layout_marginLeft="97dp"
+            android:text="tiennhat2003"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text3"
+            android:layout_alignParentCenter="true"
+            android:layout_marginLeft="97dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:text="and 132 others liked your post"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="400dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/notification"
+        android:layout_marginTop="307dp">
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/text4"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-22dp"
+            android:layout_marginRight="5dp"
+            android:text="2 days ago"
+            android:textSize="17dp" />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/like_ic" />
+
+        <TextView
+            android:id="@+id/text4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentCenter="true"
+            android:layout_marginLeft="97dp"
+            android:text="anhtai183"
+            android:textSize="18dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text4"
+            android:layout_alignParentCenter="true"
+            android:layout_marginLeft="97dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:text="and 30 others liked your post"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
