@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void nextActivity(){
-
+        // get current user from firebase
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         // còn check account đã xóa không tồn tại nữa nhưng vẫn đang sign-in chưa sign out
