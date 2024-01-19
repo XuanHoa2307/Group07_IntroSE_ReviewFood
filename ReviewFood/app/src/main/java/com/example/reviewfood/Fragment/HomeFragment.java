@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
 import android.widget.RadioButton;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,6 +63,7 @@ public class HomeFragment extends Fragment {
     private String currentUserId;
 
     ImageButton btnClear;
+
     ImageButton btnTagFilter;
     Dialog tagDialog;
     RadioButton radio_Monman, radio_Monchay, radio_Chayman, radio_Monbanh, radio_Anvat, radio_Monkho, radio_Monnuoc, radio_Haisan, radio_Donuong;
@@ -68,6 +71,7 @@ public class HomeFragment extends Fragment {
     AppCompatButton btnSearch;
     List<String> tagList;
     List<String> searchList;
+
 
     public HomeFragment(Context context){
         this.context = context;
@@ -104,6 +108,7 @@ public class HomeFragment extends Fragment {
         handleSearchBar();
         clickToClear();
 
+
         //tag filter
         searchList = new ArrayList<>();
         tagList = new ArrayList<>();
@@ -126,6 +131,7 @@ public class HomeFragment extends Fragment {
 
         initRadioButton();
         clickToTag();
+
 
         viewPostAdapter = new HomeAdapter(context, postList, currentUserId);
         viewPostRecycle.setAdapter(viewPostAdapter);
@@ -275,6 +281,7 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
 
     private void initRadioButton(){
         //check và không check handle
@@ -553,16 +560,21 @@ public class HomeFragment extends Fragment {
         });
     }
 
+
     private void clickToClear(){
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                 postList.clear();
                 postList.addAll(tempPost);
                 viewPostAdapter.notifyDataSetChanged();
                 btnClear.setVisibility(View.INVISIBLE);
                 searchBar.setText("");
+
+
 
             }
         });
@@ -575,7 +587,9 @@ public class HomeFragment extends Fragment {
         int[][] dp = new int[n + 1][m + 1];
         int maxLength = 0;
 
+
         //xâu con chung dài nhất
+
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
                 if (s.charAt(i - 1) == t.charAt(j - 1)) {
@@ -593,7 +607,9 @@ public class HomeFragment extends Fragment {
         int length = 0;
         int longest = 0;
 
+
         //tìm chữ dài nhất
+
         for (int i = 0; i < s.length(); i++){
             if (s.charAt(i) == ' '){
                 length = 0;
@@ -611,7 +627,9 @@ public class HomeFragment extends Fragment {
     {
         if(lo >= hi) return;
 
+
         //tìm mid
+
         int pivot = a.get(lo + (hi - lo) / 2);
         int i = lo - 1;
         int j = hi + 1;
@@ -625,15 +643,21 @@ public class HomeFragment extends Fragment {
             Collections.swap(b, i, j);
         }
 
+
         //sort 2 đầu
+
         qsort(b, a, lo, j);
         qsort(b, a, j + 1, hi);
     }
+
+
+
 
     public static String deAccent(String str) {
         String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(nfdNormalizedString).replaceAll("");
     }
+
 
 }

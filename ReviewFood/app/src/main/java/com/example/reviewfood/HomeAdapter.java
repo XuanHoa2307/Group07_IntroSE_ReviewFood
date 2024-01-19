@@ -98,8 +98,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         int currentCmtNumber = posts.get(position).getCommentList().size();
         posts.get(position).setCommentNumber(currentCmtNumber);
 
+
         int currentLikeNumber = posts.get(position).getLikeIDList().size();
         posts.get(position).setLikeNumber(currentLikeNumber);
+
 
         int currentDislikeNumber = posts.get(position).getDislikeIDList().size();
         posts.get(position).setDislikeNumber(currentDislikeNumber);
@@ -110,6 +112,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
         holder.countCmt.setText(String.valueOf(posts.get(position).getCommentNumber()));
 
+
+
+        holder.statusPost.setText(posts.get(position).getStatus());
+
         String withHastag = "";
         withHastag = withHastag + posts.get(position).getStatus() + "\n\n";
         for (int i = 0; i < posts.get(position).getTagList().size(); i++){
@@ -117,6 +123,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         }
 
         holder.statusPost.setText(withHastag);
+
         holder.statusPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -389,6 +396,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+
+
 
                         //updateCommentToCloud(postId);
                     }
