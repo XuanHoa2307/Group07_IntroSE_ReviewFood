@@ -56,7 +56,7 @@ public class FavoriteFragment extends Fragment {
 
         favoritePostRecycle = view.findViewById(R.id.favorite_ListPost);
 
-        //favoritePostAdapter = new FavoriteAdapter(favoriteList, context, currentUserId, this);
+        favoritePostAdapter = new FavoriteAdapter(favoriteList, context, currentUserId, this);
 
         favoritePostAdapter = new FavoriteAdapter(favoriteList, context, currentUserId, this, new FavoriteAdapter.OnFavoritePostClickListener() {
             @Override
@@ -101,11 +101,16 @@ public class FavoriteFragment extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                 if (task.isSuccessful()) {
-                                                    Post reviewPost = task.getResult().toObject(Post.class).withId(id);
-                                                    if (reviewPost != null)
-                                                    {
-                                                        favoriteList.add(reviewPost);
-                                                        favoritePostAdapter.notifyDataSetChanged();
+                                                    DocumentSnapshot document = task.getResult();
+                                                    if (document.exists()) {
+                                                        Post reviewPost = document.toObject(Post.class).withId(id);
+                                                        if (reviewPost != null) {
+                                                            favoriteList.add(reviewPost);
+                                                            favoritePostAdapter.notifyDataSetChanged();
+                                                        }
+                                                    } else {
+                                                        // Xóa tham chiếu đến bài viết không tồn tại khỏi danh sách yêu thích
+                                                        fireStore.collection("User/" + currentUserId + "/Favorite Post").document(id).delete();
                                                     }
                                                 }
                                             }
