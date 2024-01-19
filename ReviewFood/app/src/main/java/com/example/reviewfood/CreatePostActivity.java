@@ -106,6 +106,8 @@ public class CreatePostActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Post Created Successfully.", Toast.LENGTH_SHORT).show();
 
+
+
             }
         });
 
@@ -113,7 +115,7 @@ public class CreatePostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CreatePostActivity.this, MainActivity.class));
-                finish();
+                finishAffinity();
             }
         });
 
@@ -151,7 +153,7 @@ public class CreatePostActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 Intent intent = new Intent(CreatePostActivity.this, MainActivity.class);
                                 startActivity(intent);
-                                finish();
+                                finishAffinity();
                             }
                         }, 2000);
                     } else {
@@ -159,6 +161,18 @@ public class CreatePostActivity extends AppCompatActivity {
                     }
                 }
             });
+        }
+        else {
+            progressDialog.show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(CreatePostActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finishAffinity();
+                }
+            }, 2000);
         }
     }
 

@@ -103,7 +103,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_up_vote"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:backgroundTint="@color/grey"/>
         <TextView
             android:id="@+id/like_Count"
             android:layout_width="wrap_content"
@@ -111,7 +113,8 @@
             android:text="123"
             android:textSize="19dp"
             android:textColor="@color/black"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/dislike_Btn"
@@ -119,7 +122,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:src="@drawable/ic_down_vote"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:backgroundTint="@color/grey"/>
         <TextView
             android:id="@+id/dislike_Count"
             android:layout_width="wrap_content"
@@ -127,7 +132,8 @@
             android:text="45"
             android:textSize="19dp"
             android:textColor="@color/black"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/comment_Btn"
@@ -135,7 +141,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
             android:src="@drawable/ic_comment"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:backgroundTint="@color/grey"/>
         <TextView
             android:id="@+id/comment_Count"
             android:layout_width="wrap_content"
@@ -143,7 +151,8 @@
             android:text="67"
             android:textSize="19dp"
             android:textColor="@color/black"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/save_Btn"
@@ -151,7 +160,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
             android:src="@drawable/ic_save_post"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
+            android:layout_weight="1"
+            android:backgroundTint="@color/grey"/>
         <TextView
             android:id="@+id/save_Text"
             android:layout_width="wrap_content"
@@ -159,7 +170,8 @@
             android:text="Save"
             android:textColor="@color/black"
             android:textSize="19dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"/>
 
     </LinearLayout>
 

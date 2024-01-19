@@ -306,6 +306,7 @@ public class ProfileFragment extends Fragment {
                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
                     } else {
                         CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(mMainActivity, ProfileFragment.this);
+
                     }
                 }
             }
