@@ -41,7 +41,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
 
 
-
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -90,18 +89,25 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             }
         });
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                return false;
-            }
-        });
+        boolean isCurrentUserComment = comments.get(position).getUserID().equals(currentUserID);
 
         holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                 MenuInflater inflater = ((CommentActivity) context).getMenuInflater();
                 inflater.inflate(R.menu.comment_context_menu, menu);
+
+                // Nếu bình luận không thuộc về người dùng hiện tại, ẩn menu xóa
+                menu.findItem(R.id.menu_delete_comment).setVisible(isCurrentUserComment);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // Hiển thị menu context khi nhấn giữ
+                ((CommentActivity) context).setCurrentLongPressedCommentPosition(position);
+                return false;
             }
         });
 

@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,16 +85,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.statusPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*int clickedPosition = holder.getAdapterPosition();
-                if (clickedPosition != RecyclerView.NO_POSITION) {
-                    if (holder.statusPost.getMaxLines() == Integer.MAX_VALUE) {
-                        holder.statusPost.setMaxLines(3);
-                        holder.statusPost.setText(posts.get(clickedPosition).getStatus() + " .........");
-                    } else {
-                        holder.statusPost.setMaxLines(Integer.MAX_VALUE);
-                        holder.statusPost.setText(posts.get(clickedPosition).getStatus() + "   ~ Thu gọn ~");
-                    }
-                }*/
+
                 boolean expanded = false;
                 if (expanded) {
                     // Giảm số dòng hiển thị khi đã mở rộng
@@ -109,6 +101,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         });
 
         Glide.with(context).load(posts.get(position).getImagePost()).into(holder.imagePost);
+        if (posts.get(position).getImagePost() == null || posts.get(position).getImagePost().length() <= 0){
+            holder.imagePost.setVisibility(View.GONE);
+        }
+        else holder.imagePost.setVisibility(View.VISIBLE);
 
 
         //cac chuc nang khac cua post : like, cmt, save,...
@@ -210,6 +206,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
                 Intent commentIntent = new Intent(context, CommentActivity.class);
                 commentIntent.putExtra("postId", posts.get(position).postId);
+                commentIntent.putStringArrayListExtra("commentIDList", (ArrayList<String>) posts.get(position).getCommentList());
                 context.startActivity(commentIntent);
             }
         });
@@ -239,6 +236,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     // Ví dụ: hiển thị thông báo lỗi hoặc thực hiện các thao tác khác
                 });
     }
+
+
+
 
     @Override
     public int getItemCount() {

@@ -80,8 +80,17 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //listenDataChange();
+        viewPostAdapter.notifyDataSetChanged();
+    }
+
+
     public void listenDataChange() {
-        fireStore.collection("Post").orderBy("postTime", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        fireStore.collection("Post").orderBy("postTime", Query.Direction.ASCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (error == null) {
@@ -90,10 +99,30 @@ public class HomeFragment extends Fragment {
                                     if (doc.getType() == DocumentChange.Type.ADDED) {
                                         String postId = doc.getDocument().getId();
                                         Post rvPost = doc.getDocument().toObject(Post.class).withId(postId);
-                                        postList.add(rvPost);
-                                        viewPostAdapter.notifyDataSetChanged();
-                                    } else
-                                        viewPostAdapter.notifyDataSetChanged();
+
+                                        if (!isPostExists(postId)) {
+                                            postList.add(0, rvPost);
+                                            viewPostAdapter.notifyItemInserted(0);
+                                        }
+                                    }
+
+                                    if (doc.getType() == DocumentChange.Type.MODIFIED) {
+                                        String postId = doc.getDocument().getId();
+                                        Post rvPost = doc.getDocument().toObject(Post.class).withId(postId);
+
+
+                                        int index = 0;
+                                        for (int i = 0; i < postList.size(); i++) {
+                                            if (postList.get(i).postId.equals(postId)) {
+
+                                                index = i;
+                                                break;
+                                            }
+                                        }
+
+                                        viewPostAdapter.notifyItemChanged(index);
+                                    }
+
                                 }
                             }
                         }
@@ -101,7 +130,15 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-
+    // Kiểm tra xem post đã tồn tại trong danh sách chưa
+    private boolean isPostExists(String postId) {
+        for (Post post : postList) {
+            if (post.postId.equals(postId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     private void ClickToCreatePost(){
