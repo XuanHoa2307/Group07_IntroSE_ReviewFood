@@ -51,6 +51,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <activity
+            android:name=".MainActivityAdmin"
+            android:exported="false" />
     </application>
 
 </manifest>

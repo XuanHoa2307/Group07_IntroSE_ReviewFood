@@ -22,9 +22,22 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/silver"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                />
+                android:background="@drawable/ic_stroke_header"
+                android:theme="@style/ThemeOverlay.AppCompat.Light">
+
+                <com.example.reviewfood.StrokeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="30dp"
+                    android:text="ReviewFood"
+                    android:textColor="#0000CC"
+                    app:strokeColor="#00CCFF"
+                    app:strokeWidth="3dp"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:elevation="6dp" />
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
@@ -36,7 +49,7 @@
 
     <com.google.android.material.navigation.NavigationView
 
-        android:id="@+id/navigation_view"
+        android:id="@+id/navigation_view_admin"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

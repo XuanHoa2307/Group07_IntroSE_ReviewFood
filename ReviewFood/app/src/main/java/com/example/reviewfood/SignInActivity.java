@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +52,11 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        mailAdmin.add("admin001@gmail.com");
+        /*mailAdmin.add("admin001@gmail.com");
         mailAdmin.add("admin002@gmail.com");
         mailAdmin.add("admin003@gmail.com");
         mailAdmin.add("admin004@gmail.com");
-        mailAdmin.add("admin005@gmail.com");
+        mailAdmin.add("admin005@gmail.com");*/
 
         edTxt_Email = findViewById(R.id.edTxt_Email_SignIn);
         edTxt_Password = findViewById(R.id.edTxt_Password_SignIn);
@@ -69,6 +71,8 @@ public class SignInActivity extends AppCompatActivity {
         authUser = new Authentication();
         userInf = new User();
 
+        getMailAdminList();
+
         initCheck();
 
         ClickForgotPassword();
@@ -76,6 +80,31 @@ public class SignInActivity extends AppCompatActivity {
         SignInApp();
 
         SignUpNowViewTxt();
+    }
+
+
+    private void getMailAdminList(){
+        fireStore.collection("AdminAuthentication").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> emailList = new ArrayList<>();
+                    // Lặp qua tất cả các tài liệu trong collection "admin"
+                    for (DocumentSnapshot document : task.getResult()) {
+                        // Kiểm tra xem tài liệu có chứa field "email" hay không
+                        if (document.contains("email")) {
+                            String email = document.getString("email");
+                            emailList.add(email);
+                        }
+                    }
+
+                    // In ra danh sách email hoặc thực hiện các thao tác khác với danh sách email
+                    for (String email : emailList) {
+                        mailAdmin.add(email);
+                    }
+                }
+            }
+        });
     }
 
     private void SignUpNowViewTxt(){
@@ -129,9 +158,13 @@ public class SignInActivity extends AppCompatActivity {
                                         else{
                                             clearCredentials();
                                         }
-                                        if (mailAdmin.contains(authUser.getEmail())) {
+                                        if (!mailAdmin.contains(authUser.getEmail())) {
                                             // Sign in success, update UI with the signed-in user's information
                                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        }
+                                        else {
+                                            Intent intent = new Intent(SignInActivity.this, MainActivityAdmin.class);
                                             startActivity(intent);
                                         }
 

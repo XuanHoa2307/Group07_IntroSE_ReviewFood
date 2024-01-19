@@ -25,6 +25,7 @@ import com.example.reviewfood.Fragment.FavoriteFragment;
 import com.example.reviewfood.Fragment.HomeFragment;
 import com.example.reviewfood.Fragment.NotificationFragment;
 import com.example.reviewfood.Fragment.ProfileFragment;
+import com.example.reviewfood.Fragment.ReportNotificationFragment;
 import com.example.reviewfood.Fragment.SettingFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -70,7 +71,7 @@ public class MainActivityAdmin extends AppCompatActivity implements NavigationVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_admin);
 
-        mNavigationView = findViewById(R.id.navigation_view);
+        mNavigationView = findViewById(R.id.navigation_view_admin);
 
         imgAvatar = mNavigationView.getHeaderView(0).findViewById(R.id.imgAvatar);
         txtName = mNavigationView.getHeaderView(0).findViewById(R.id.txtName);
@@ -104,7 +105,7 @@ public class MainActivityAdmin extends AppCompatActivity implements NavigationVi
 
         // Set man hinh moi vao
         replaceFragment(new HomeFragment(this));
-        mNavigationView.getMenu().findItem(R.id.navi_home).setChecked(true);
+        mNavigationView.getMenu().findItem(R.id.navi_home_admin).setChecked(true);
 
     }
 
@@ -120,10 +121,10 @@ public class MainActivityAdmin extends AppCompatActivity implements NavigationVi
             }
         } else if (id == R.id.navi_reportNotification) {
             if (mCurrentFragment != FRAGMENT_FAVORITE) {
-                replaceFragment(new FavoriteFragment(this, currentUserId));
+                replaceFragment(new ReportNotificationFragment());
                 mCurrentFragment = FRAGMENT_FAVORITE;
             }
-        } else if (id == R.id.navi_setting_admin) {
+        } else if (id == R.id.navi_setting) {
             if (mCurrentFragment != FRAGMENT_DRAFT) {
                 replaceFragment(new DraftFragment());
                 mCurrentFragment = FRAGMENT_DRAFT;
