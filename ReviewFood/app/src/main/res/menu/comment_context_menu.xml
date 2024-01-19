@@ -3,4 +3,9 @@
     <item
         android:id="@+id/menu_delete_comment"
         android:title="Delete Comment" />
+
+    <item
+        android:id="@+id/menu_report_comment"
+        android:title="Report Comment" />
+
 </menu>

@@ -106,6 +106,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     inflater.inflate(R.menu.comment_context_menu, menu);
                     // Nếu bình luận không thuộc về người dùng hiện tại, ẩn menu xóa
                     menu.findItem(R.id.menu_delete_comment).setVisible(isCurrentUserComment);
+
+                    // Ngược lại thì mở report
+                    menu.findItem(R.id.menu_report_comment).setVisible(!isCurrentUserComment);
                 }
 
 

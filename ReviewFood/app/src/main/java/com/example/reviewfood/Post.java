@@ -6,6 +6,7 @@ import com.google.firebase.Timestamp;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Post extends PostId implements Serializable {
 
@@ -23,7 +24,7 @@ public class Post extends PostId implements Serializable {
     private int commentNumber;
     private List<String> commentList;
     private List<String> tagList;
-
+    private List<Report> reportList;
 
     public Post() {
         this.likeNumber = 0;
@@ -35,7 +36,7 @@ public class Post extends PostId implements Serializable {
         this.commentNumber = 0;
         this.commentList = new ArrayList<>();
         this.tagList = new ArrayList<>();
-
+        this.reportList = new ArrayList<>();
     }
 
     public Post(String author, String userID, String status, String imagePost, Timestamp postTime) {
@@ -53,7 +54,7 @@ public class Post extends PostId implements Serializable {
         this.commentNumber = 0;
         this.commentList = new ArrayList<>();
         this.tagList = new ArrayList<>();
-
+        this.reportList = new ArrayList<>();
     }
 
 
@@ -140,6 +141,27 @@ public class Post extends PostId implements Serializable {
     public void setTagList(List<String> tagList) {
         this.tagList.clear();
         this.tagList.addAll(tagList);
+    }
+    public void setReportList(List<Report> reportList) {
+        this.reportList.clear();
+        this.reportList.addAll(reportList);
+    }
+
+    public boolean addReport(Report report){
+        boolean isNew = true;
+        for (int i = 0; i < reportList.size(); i++){
+            if (Objects.equals(report.getReporterID(), reportList.get(i).getReporterID())){
+                isNew = false;
+                break;
+            }
+        }
+        if (isNew) {
+            reportList.add(report);
+        } else {
+            // người này đã gửi report
+        }
+
+        return isNew;
     }
 
 }
