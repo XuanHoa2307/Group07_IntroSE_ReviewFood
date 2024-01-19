@@ -293,10 +293,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
         });
 
-
-
         // comment
-
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,9 +308,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         btnSendReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //report mới
                 Report report = new Report();
                 report.setReporterID(currentUserID);
 
+                //kiểm tra ít nhất 1 check
                 boolean isCheckOne = false;
 
                 if (cb_nutidy.isChecked()){
