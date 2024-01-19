@@ -98,7 +98,6 @@ public class SettingFragment extends Fragment {
 
     }
 
-
     public void showUserInformationSettings(){
 
         readInformation();

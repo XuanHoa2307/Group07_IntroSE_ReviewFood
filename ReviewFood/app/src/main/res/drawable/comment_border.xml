@@ -1,0 +1,11 @@
+<!-- res/drawable/border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="#cccbc8" /> <!-- Màu nền -->
+    <corners android:radius="20dp" /> <!-- Độ cong của góc (nếu muốn có góc bo tròn) -->
+    <stroke
+        android:color="#000000"
+    android:width="0dp" /> <!-- Độ dày của viền -->
+
+</shape>

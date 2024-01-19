@@ -7,21 +7,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginTop="50dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
             android:src="@drawable/favorite" />
 
         <ImageView
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/favorite_word" />
 
     </LinearLayout>
