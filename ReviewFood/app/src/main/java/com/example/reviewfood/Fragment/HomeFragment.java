@@ -2,6 +2,7 @@ package com.example.reviewfood.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -88,6 +89,17 @@ public class HomeFragment extends Fragment {
         viewPostRecycle = mView.findViewById(R.id.post_RecyclerView);
         btnCreatePost = mView.findViewById(R.id.btn_CreatePost);
         currentUserId = fireAuth.getCurrentUser().getUid();
+
+        SharedPreferences preferences = context.getSharedPreferences("AdminPreferences", Context.MODE_PRIVATE);
+        boolean isAdmin = preferences.getBoolean("isAdmin", false);
+
+        // Neu la admin thi khong cho dang bai
+        if (isAdmin){
+            btnCreatePost.setVisibility(View.GONE);
+        }
+        else {
+            btnCreatePost.setVisibility(View.VISIBLE);
+        }
 
         ClickToCreatePost();
         handleSearchBar();

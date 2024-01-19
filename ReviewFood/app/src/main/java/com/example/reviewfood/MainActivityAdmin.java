@@ -43,11 +43,8 @@ public class MainActivityAdmin extends AppCompatActivity implements NavigationVi
     private DrawerLayout mDrawLayout;
 
     private static final int FRAGMENT_HOME = 0;
-    private static final int FRAGMENT_FAVORITE = 1;
-    private static final int FRAGMENT_DRAFT = 2;
-    private static final int FRAGMENT_PROFILE = 3;
-    private static final int FRAGMENT_NOTIFICATION = 4;
-    private static final int FRAGMENT_SETTING = 5;
+    private static final int FRAGMENT_REPORTNOTIFICATION = 1;
+    private static final int FRAGMENT_SETTING = 2;
     private int mCurrentFragment = FRAGMENT_HOME;
 
     public static final int MY_REQUEST_CODE = 123;
@@ -120,14 +117,14 @@ public class MainActivityAdmin extends AppCompatActivity implements NavigationVi
                 mCurrentFragment = FRAGMENT_HOME;
             }
         } else if (id == R.id.navi_reportNotification) {
-            if (mCurrentFragment != FRAGMENT_FAVORITE) {
+            if (mCurrentFragment != FRAGMENT_REPORTNOTIFICATION) {
                 replaceFragment(new ReportNotificationFragment());
-                mCurrentFragment = FRAGMENT_FAVORITE;
+                mCurrentFragment = FRAGMENT_REPORTNOTIFICATION;
             }
         } else if (id == R.id.navi_setting) {
-            if (mCurrentFragment != FRAGMENT_DRAFT) {
-                replaceFragment(new DraftFragment());
-                mCurrentFragment = FRAGMENT_DRAFT;
+            if (mCurrentFragment != FRAGMENT_SETTING) {
+                replaceFragment(new SettingFragment());
+                mCurrentFragment = FRAGMENT_SETTING;
             }
         }
 

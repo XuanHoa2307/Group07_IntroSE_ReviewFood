@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -42,6 +43,8 @@ public class SplashActivity extends AppCompatActivity {
     private void nextActivity(){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        SharedPreferences preferences = getSharedPreferences("AdminPreferences", SignInActivity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
 
         // còn check account đã xóa không tồn tại nữa nhưng vẫn đang sign-in chưa sign out
 
@@ -53,10 +56,16 @@ public class SplashActivity extends AppCompatActivity {
         else{
             // da login chuyen vao man hinh chinh
             if (!mailAdmin.contains(user.getEmail())) {
+                editor.putBoolean("isAdmin", false);
+                editor.apply();
+
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
             else {
+                editor.putBoolean("isAdmin", true);
+                editor.apply();
+
                 Intent intent = new Intent(this, MainActivityAdmin.class);
                 startActivity(intent);
             }
