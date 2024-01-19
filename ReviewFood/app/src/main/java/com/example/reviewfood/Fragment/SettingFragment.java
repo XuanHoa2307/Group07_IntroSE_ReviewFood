@@ -76,6 +76,9 @@ public class SettingFragment extends Fragment {
             public void onClick(View v) {
                 PostFragment postFragment = new PostFragment();
 
+
+
+
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
