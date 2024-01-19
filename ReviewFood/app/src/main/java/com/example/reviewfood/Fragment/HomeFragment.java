@@ -471,9 +471,11 @@ public class HomeFragment extends Fragment {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         relativeLevel.add(0);
 
+                                        // lấy data
                                         String postId = document.getId();
                                         Post rvPost = document.toObject(Post.class).withId(postId);
 
+                                        //kiểm tra điều kiện
                                         if (rvPost.getTagList().size() > 0 && searchList.size() > 0){
                                             for (int i = 0; i < rvPost.getTagList().size(); i++){
                                                 for (int j = 0; j < searchList.size(); j++){
@@ -485,6 +487,7 @@ public class HomeFragment extends Fragment {
                                             }
                                         }
 
+                                        //phù hợp
                                         if (relativeLevel.get(relativeLevel.size() - 1) > 0){
                                             //lấy mảng Post
                                             postsFromDB.add(rvPost);
@@ -541,6 +544,7 @@ public class HomeFragment extends Fragment {
         int[][] dp = new int[n + 1][m + 1];
         int maxLength = 0;
 
+        //xâu con chung dài nhất
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= m; j++) {
                 if (s.charAt(i - 1) == t.charAt(j - 1)) {
