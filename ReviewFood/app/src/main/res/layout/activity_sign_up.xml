@@ -103,7 +103,8 @@
                                     android:hint="Email"
                                     android:textColorHint="@color/black"
                                     android:textSize="18sp"
-                                    tools:ignore="TouchTargetSizeCheck" />
+                                    tools:ignore="TouchTargetSizeCheck"
+                                    android:textColor="@color/black"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -133,7 +134,8 @@
                                     android:inputType="textPassword"
                                     android:textColorHint="@color/black"
                                     android:textSize="18sp"
-                                    tools:ignore="TouchTargetSizeCheck" />
+                                    tools:ignore="TouchTargetSizeCheck"
+                                    android:textColor="@color/black"/>
                             </LinearLayout>
 
                             <LinearLayout
@@ -162,7 +164,8 @@
                                     android:inputType="textPassword"
                                     android:textColorHint="@color/black"
                                     android:textSize="18sp"
-                                    tools:ignore="TouchTargetSizeCheck" />
+                                    tools:ignore="TouchTargetSizeCheck"
+                                    android:textColor="@color/black"/>
                             </LinearLayout>
 
                             <LinearLayout

@@ -1,6 +1,8 @@
 package com.example.reviewfood;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +66,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             });
         }
 
+        int currentCmtNumber = posts.get(position).getCommentList().size();
+        posts.get(position).setCommentNumber(currentCmtNumber);
+
+        int currentLikeNumber = posts.get(position).getLikeIDList().size();
+        posts.get(position).setLikeNumber(currentLikeNumber);
+
+        int currentDislikeNumber = posts.get(position).getDislikeIDList().size();
+        posts.get(position).setDislikeNumber(currentDislikeNumber);
+
         holder.fullNameAuthor.setText(posts.get(position).getAuthor());
         holder.timePost.setText(TimestampConverter.getTime(posts.get(position).getPostTime()));
 
@@ -74,25 +86,32 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         holder.countLike.setText(String.valueOf(posts.get(position).getLikeNumber()));
         holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
+        holder.countCmt.setText(String.valueOf(posts.get(position).getCommentNumber()));
 
         holder.statusPost.setText(posts.get(position).getStatus());
         holder.statusPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int clickedPosition = holder.getAdapterPosition();
-                if (clickedPosition != RecyclerView.NO_POSITION) {
-                    if (holder.statusPost.getMaxLines() == Integer.MAX_VALUE) {
-                        holder.statusPost.setMaxLines(3);
-                        holder.statusPost.setText(posts.get(clickedPosition).getStatus() + " .........");
-                    } else {
-                        holder.statusPost.setMaxLines(Integer.MAX_VALUE);
-                        holder.statusPost.setText(posts.get(clickedPosition).getStatus() + "   ~ Thu gọn ~");
-                    }
+
+                boolean expanded = false;
+                if (expanded) {
+                    // Giảm số dòng hiển thị khi đã mở rộng
+                    holder.statusPost.setMaxLines(3);
+                    holder.statusPost.setEllipsize(TextUtils.TruncateAt.END);
+                } else {
+                    // Hiển thị toàn bộ nội dung khi chưa mở rộng
+                    holder.statusPost.setMaxLines(Integer.MAX_VALUE);
+                    holder.statusPost.setEllipsize(null);
                 }
+                expanded = !expanded;
             }
         });
 
         Glide.with(context).load(posts.get(position).getImagePost()).into(holder.imagePost);
+        if (posts.get(position).getImagePost() == null || posts.get(position).getImagePost().length() <= 0){
+            holder.imagePost.setVisibility(View.GONE);
+        }
+        else holder.imagePost.setVisibility(View.VISIBLE);
 
 
         //cac chuc nang khac cua post : like, cmt, save,...
@@ -186,6 +205,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
 
 
+        // comment
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent commentIntent = new Intent(context, CommentActivity.class);
+                commentIntent.putExtra("postId", posts.get(position).postId);
+                commentIntent.putStringArrayListExtra("commentIDList", (ArrayList<String>) posts.get(position).getCommentList());
+                context.startActivity(commentIntent);
+            }
+        });
 
     }
 
@@ -212,6 +243,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     // Ví dụ: hiển thị thông báo lỗi hoặc thực hiện các thao tác khác
                 });
     }
+
+
+
 
     @Override
     public int getItemCount() {
