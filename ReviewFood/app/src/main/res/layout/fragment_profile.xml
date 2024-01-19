@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frame_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,86 +10,159 @@
     android:gravity="center"
     >
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgAvatar_Profile"
-        android:layout_width="125dp"
-        android:layout_height="126dp"
-        android:src="@drawable/avatar_default"/>
-
-    <EditText
-        android:id="@+id/edTxt_Fullname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_marginTop="20dp"
-        android:hint="Fullname:"
-        />
-
-    <EditText
-        android:id="@+id/edTxt_Email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_marginTop="10dp"
-        android:hint="Email:"
-        />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="10dp">
+        android:gravity="center">
 
-        <EditText
-            android:id="@+id/edTxt_Birth"
-            android:layout_width="234dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date"
-            android:hint="dd/mm/yyyy"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgAvatar_Profile"
+            android:layout_width="130dp"
+            android:layout_height="139dp"
+            android:layout_marginStart="37dp"
+            android:src="@drawable/avatar_default2"/>
 
-        <Button
-            android:id="@+id/btnSelect"
-            android:layout_width="105dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/blue"
-            android:text="Select"
-            android:textSize="17dp"
-            android:gravity="center"
-            android:layout_gravity="center_horizontal"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="47dp"
+            android:src="@drawable/ic_add_avatar"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="14dp"
-        android:gravity="center_vertical"
-        android:layout_gravity="left"
-        android:layout_marginTop="6dp">
+        android:orientation="vertical"
+        android:layout_marginTop="25dp"
+        android:padding="12dp"
+        android:background="@drawable/ic_shapebackground"
+        android:backgroundTint="@color/grey">
 
-        <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="26dp"
+            android:padding="7dp">
+
+            <ImageView
+                android:layout_width="37dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_fullname" />
+
+            <EditText
+                android:id="@+id/edTxt_Fullname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:padding="20dp"
+                android:hint="Fullname:" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="7dp">
+
+            <ImageView
+                android:layout_width="37dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_email" />
+
+            <EditText
+                android:id="@+id/edTxt_Email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:padding="20dp"
+                android:hint="Email:" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gender:  "
-            android:textSize="20dp" />
+            android:orientation="horizontal"
+            android:padding="7dp">
 
-        <Spinner
-            android:id="@+id/genderSpinner"
+            <ImageView
+                android:layout_width="37dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_calender" />
+
+            <EditText
+                android:id="@+id/edTxt_Birth"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:ems="10"
+                android:inputType="date"
+                android:padding="20dp"
+                android:hint="dd/mm/yyyy"/>
+
+            <Button
+                android:id="@+id/btnSelect"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/blue_skye"
+                android:gravity="center"
+                android:text="Select"
+                android:textSize="14dp"
+                tools:ignore="TextSizeCheck" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="44dp" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="27dp"
+            android:padding="7dp">
 
+            <ImageView
+                android:layout_width="37dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_sex" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="17dp"
+                android:text="Gender:"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+
+            <Spinner
+                android:id="@+id/genderSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btnUpdate"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/blue"
         android:text="Update Profile"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:backgroundTint="@color/blue"/>
 
 </LinearLayout>

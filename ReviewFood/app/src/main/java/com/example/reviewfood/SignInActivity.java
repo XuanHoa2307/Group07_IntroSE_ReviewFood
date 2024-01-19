@@ -1,29 +1,26 @@
 package com.example.reviewfood;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -34,6 +31,10 @@ public class SignInActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private CheckBox checkRememberAcc;
 
+    FirebaseAuth fireAuth;
+    FirebaseFirestore fireStore;
+    Authentication authUser;
+    User userInf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +48,16 @@ public class SignInActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         forgotPassword = findViewById(R.id.forgotPassword);
 
+        fireAuth = FirebaseAuth.getInstance();
+        fireStore = FirebaseFirestore.getInstance();
+        authUser = new Authentication();
+        userInf = new User();
+
         initCheck();
 
         ClickForgotPassword();
 
-        SignInClick();
+        SignInApp();
 
         SignUpNowViewTxt();
     }
@@ -61,14 +67,13 @@ public class SignInActivity extends AppCompatActivity {
         layoutSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // chuyen qua Sign up
                 Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-    private void SignInClick(){
+    private void SignInApp(){
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,21 +82,29 @@ public class SignInActivity extends AppCompatActivity {
                 String password = edTxt_Password.getText().toString().trim();
 
                 if (email.isEmpty() || password.isEmpty()) {
-                    // Kiểm tra xem bất kỳ trường nào chưa được nhập
-                    Toast.makeText(SignInActivity.this, "Vui lòng nhập đủ email, password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this, "Please enter full account and password information!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
-
                     progressDialog.show();
-                    auth.signInWithEmailAndPassword(email, password)
+                    fireAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-
                                     progressDialog.dismiss();
+
                                     if (task.isSuccessful()) {
+                                        authUser.setEmail(email);
+                                        authUser.setPassword(Authentication.hashPass(password));
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                        String userUid = user.getUid();
+                                        fireStore.collection("Authentication")
+                                                 .document(userUid)
+                                                 .set(authUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        // update Data
+                                                    }
+                                                });
 
                                         if (checkRememberAcc.isChecked()) {
                                             saveCredentials(email, password);
@@ -99,18 +112,17 @@ public class SignInActivity extends AppCompatActivity {
                                         else{
                                             clearCredentials();
                                         }
-
                                         // Sign in success, update UI with the signed-in user's information
                                         Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                         startActivity(intent);
 
+                                        
                                         // dong tat ca cac activity trc khi dki account va vao giao dien thanh cong
                                         finishAffinity();
                                     }
-
                                     else {
                                         // If sign in fails, display a message to the user.
-                                        Toast.makeText(SignInActivity.this, "Authentication failed.",
+                                        Toast.makeText(SignInActivity.this, "Account and password are incorrect, please check again.",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -156,7 +168,8 @@ public class SignInActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SignInActivity.this, "Nothing, waiting to do", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
             }
         });
     }

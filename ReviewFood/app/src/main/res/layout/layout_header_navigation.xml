@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/header_menu"
     android:layout_width="match_parent"
     android:layout_height="180dp"
-    android:background="@color/pink2"
+    android:background="@drawable/ic_stroke_header"
     android:orientation="vertical"
     android:padding="17dp"
-    android:gravity="bottom">
+    android:gravity="bottom"
+    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgAvatar"
@@ -22,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Suhaoxinhtrai"
+        android:text="Username"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -33,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:text="xuanhoa711@gmail.com"
+        android:text="email"
         android:textColor="@color/black"
         android:textSize="16sp"
         tools:ignore="HardcodedText" />

@@ -1,3 +1,5 @@
+import java.util.regex.Pattern.compile
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -50,9 +52,16 @@ dependencies {
 
     implementation("com.google.firebase:firebase-database")
 
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-storage")
+
     // load image from url
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     // circle image
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation("com.squareup.picasso:picasso:2.5.2")
+    api ("com.theartofdev.edmodo:android-image-cropper:2.8.+")
+
 }
