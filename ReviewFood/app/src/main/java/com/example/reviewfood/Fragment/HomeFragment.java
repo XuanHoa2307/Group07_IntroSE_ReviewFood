@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
         viewPostAdapter.notifyDataSetChanged();
     }
 
-    
+
     public void listenDataChange() {
         fireStore.collection("Post").orderBy("postTime", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
