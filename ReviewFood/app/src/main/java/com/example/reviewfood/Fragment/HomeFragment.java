@@ -420,42 +420,61 @@ public class HomeFragment extends Fragment {
                 //xóa list check các radio button
                 searchList.clear();
 
+                //check các hastag
                 String check = "";
                 if (radio_Monman.isChecked()) {
+
                     check = check + radio_Monman.getText().toString();
                     searchList.add(radio_Monman.getText().toString());
+
                 }
                 if (radio_Monchay.isChecked()) {
+
                     check = check + radio_Monchay.getText().toString();
                     searchList.add(radio_Monchay.getText().toString());
+
                 }
                 if (radio_Chayman.isChecked()) {
+
                     check = check + radio_Chayman.getText().toString();
                     searchList.add(radio_Chayman.getText().toString());
+
                 }
                 if (radio_Monkho.isChecked()) {
+
                     check = check + radio_Monkho.getText().toString();
                     searchList.add(radio_Monkho.getText().toString());
+
                 }
                 if (radio_Monnuoc.isChecked()) {
+
                     check = check + radio_Monnuoc.getText().toString();
                     searchList.add(radio_Monnuoc.getText().toString());
+
                 }
                 if (radio_Monbanh.isChecked()) {
+
                     check = check + radio_Monbanh.getText().toString();
                     searchList.add(radio_Monbanh.getText().toString());
+
                 }
                 if (radio_Haisan.isChecked()) {
+
                     check = check + radio_Haisan.getText().toString();
                     searchList.add(radio_Haisan.getText().toString());
+
                 }
                 if (radio_Donuong.isChecked()) {
+
                     check = check + radio_Donuong.getText().toString();
                     searchList.add(radio_Donuong.getText().toString());
+
                 }
                 if (radio_Anvat.isChecked()) {
+
                     check = check + radio_Anvat.getText().toString();
                     searchList.add(radio_Anvat.getText().toString());
+
                 }
                 Log.d("CheckedFilter", check);
 
@@ -544,7 +563,7 @@ public class HomeFragment extends Fragment {
                 viewPostAdapter.notifyDataSetChanged();
                 btnClear.setVisibility(View.INVISIBLE);
                 searchBar.setText("");
-                
+
             }
         });
     }
