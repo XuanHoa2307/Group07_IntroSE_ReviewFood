@@ -277,6 +277,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initRadioButton(){
+        //check và không check handle
         radio_Monman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -562,6 +563,7 @@ public class HomeFragment extends Fragment {
         int length = 0;
         int longest = 0;
 
+        //tìm chữ dài nhất
         for (int i = 0; i < s.length(); i++){
             if (s.charAt(i) == ' '){
                 length = 0;
@@ -579,6 +581,7 @@ public class HomeFragment extends Fragment {
     {
         if(lo >= hi) return;
 
+        //tìm mid
         int pivot = a.get(lo + (hi - lo) / 2);
         int i = lo - 1;
         int j = hi + 1;
@@ -592,6 +595,7 @@ public class HomeFragment extends Fragment {
             Collections.swap(b, i, j);
         }
 
+        //sort 2 đầu
         qsort(b, a, lo, j);
         qsort(b, a, j + 1, hi);
     }
