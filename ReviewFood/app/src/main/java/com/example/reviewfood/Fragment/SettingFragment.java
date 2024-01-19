@@ -76,18 +76,14 @@ public class SettingFragment extends Fragment {
             public void onClick(View v) {
                 PostFragment postFragment = new PostFragment();
 
-                // Thực hiện giao dịch Fragment
+
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-                // Thay thế Fragment hiện tại bằng PostFragment
-                // Giả sử 'fragment_container' là ID của FrameLayout trong layout của Activity chứa Fragment
                 fragmentTransaction.replace(R.id.content_frame, postFragment);
 
-                // Thêm vào back stack (tùy chọn)
                 fragmentTransaction.addToBackStack(null);
 
-                // Hoàn tất giao dịch
                 fragmentTransaction.commit();
             }
         });
