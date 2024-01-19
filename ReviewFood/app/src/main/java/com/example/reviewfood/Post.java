@@ -2,10 +2,13 @@ package com.example.reviewfood;
 
 import com.google.firebase.Timestamp;
 
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Post extends PostId {
+public class Post extends PostId implements Serializable {
+
     private String author;
     private String userID;
     private String status;
@@ -19,7 +22,7 @@ public class Post extends PostId {
     public boolean isDisLiked;
     private int commentNumber;
     private List<String> commentList;
-
+    private List<String> tagList;
 
 
     public Post() {
@@ -31,6 +34,8 @@ public class Post extends PostId {
         isDisLiked = false;
         this.commentNumber = 0;
         this.commentList = new ArrayList<>();
+        this.tagList = new ArrayList<>();
+
     }
 
     public Post(String author, String userID, String status, String imagePost, Timestamp postTime) {
@@ -47,8 +52,9 @@ public class Post extends PostId {
         isDisLiked = false;
         this.commentNumber = 0;
         this.commentList = new ArrayList<>();
-    }
+        this.tagList = new ArrayList<>();
 
+    }
 
 
     public String getAuthor() {
@@ -89,6 +95,10 @@ public class Post extends PostId {
         return commentList;
     }
 
+    public List<String> getTagList() {
+        return tagList;
+    }
+
     public void setAuthor(String author) {
         this.author = author;
     }
@@ -125,6 +135,11 @@ public class Post extends PostId {
 
     public void setCommentList(List<String> commentList) {
         this.commentList = commentList;
+    }
+
+    public void setTagList(List<String> tagList) {
+        this.tagList.clear();
+        this.tagList.addAll(tagList);
     }
 
 }

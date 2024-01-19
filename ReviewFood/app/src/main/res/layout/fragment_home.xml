@@ -15,6 +15,7 @@
         android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
+
         <EditText
             android:id="@+id/search_Bar"
             android:background="@drawable/ic_shapebackground"
@@ -91,19 +92,18 @@
             tools:ignore="HardcodedText"
             android:layout_weight="1"/>
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/btn_TagFilter"
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/search_tag"
+            android:background="@drawable/search_tag"
             android:layout_weight="1">
 
-        </ImageView>
+        </ImageButton>
 
     </LinearLayout>
-
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/post_RecyclerView"
@@ -112,7 +112,5 @@
         android:layout_below="@id/layout_home_2"
         android:layout_marginTop="20dp"
         tools:ignore="UnknownId" />
-
-
 
 </RelativeLayout>

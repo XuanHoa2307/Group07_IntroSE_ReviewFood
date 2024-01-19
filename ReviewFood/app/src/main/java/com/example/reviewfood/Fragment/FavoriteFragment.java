@@ -10,9 +10,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.reviewfood.DetailPostFragment;
 import com.example.reviewfood.FavoriteAdapter;
 import com.example.reviewfood.Post;
 import com.example.reviewfood.R;
@@ -36,6 +38,7 @@ public class FavoriteFragment extends Fragment {
     FirebaseFirestore fireStore;
     RecyclerView favoritePostRecycle;
     FavoriteAdapter favoritePostAdapter;
+    FavoriteAdapter detailPostAdapter;
     List<Post> favoriteList;
 
     public FavoriteFragment(Context context, String currentUserId) {
@@ -53,12 +56,31 @@ public class FavoriteFragment extends Fragment {
 
         favoritePostRecycle = view.findViewById(R.id.favorite_ListPost);
 
-        favoritePostAdapter = new FavoriteAdapter(favoriteList, context, currentUserId, this);
+        //favoritePostAdapter = new FavoriteAdapter(favoriteList, context, currentUserId, this);
+
+        favoritePostAdapter = new FavoriteAdapter(favoriteList, context, currentUserId, this, new FavoriteAdapter.OnFavoritePostClickListener() {
+            @Override
+            public void onPostDetailClicked(Post post) {
+                showDetailFragment(post);
+            }
+        });
+
         favoritePostRecycle.setAdapter(favoritePostAdapter);
         favoritePostRecycle.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
         listenDataChanged();
         return view;
+    }
+
+    private void showDetailFragment(Post post) {
+        // Tạo một instance mới của Fragment chi tiết
+        DetailPostFragment detailFragment = DetailPostFragment.newInstance(post);
+
+        assert getFragmentManager() != null;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content_frame, detailFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
 
