@@ -3,6 +3,7 @@ package com.example.reviewfood;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,15 +13,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -41,7 +45,9 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CreatePostActivity extends AppCompatActivity {
 
@@ -64,6 +70,13 @@ public class CreatePostActivity extends AppCompatActivity {
     String generatedIDPost;
     private ProgressDialog progressDialog;
 
+    ImageButton btnTag;
+    Dialog tagDialog;
+    RadioButton radio_Monman, radio_Monchay, radio_Chayman, radio_Monbanh, radio_Anvat, radio_Monkho, radio_Monnuoc, radio_Haisan, radio_Donuong;
+    ImageButton btnCloseFilter;
+    AppCompatButton btnOK;
+    List<String> tagList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,11 +96,34 @@ public class CreatePostActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btn_BackCreatePost);
         btnCreatePost = findViewById(R.id.btn_createPost);
 
+        tagList = new ArrayList<>();
+
         showUserInformationCreatePost();
         setImagePost();
 
         get_fullNameAuthor();
         get_userIdAuthor();
+
+        btnTag = findViewById(R.id.imgB_tag);
+        tagDialog = new Dialog(CreatePostActivity.this);
+        tagDialog.setContentView(R.layout.layout_tag_filter);
+        tagDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        tagDialog.setCancelable(false);
+        btnCloseFilter = tagDialog.findViewById(R.id.btn_closeFilter);
+        btnOK = tagDialog.findViewById(R.id.btn_Search);
+        btnOK.setText("OK");
+        radio_Anvat = tagDialog.findViewById(R.id.radio_Anvat);
+        radio_Chayman = tagDialog.findViewById(R.id.radio_Chayman);
+        radio_Haisan = tagDialog.findViewById(R.id.radio_Haisan);
+        radio_Donuong = tagDialog.findViewById(R.id.radio_Donuong);
+        radio_Monchay = tagDialog.findViewById(R.id.radio_Monchay);
+        radio_Monnuoc = tagDialog.findViewById(R.id.radio_Monnuoc);
+        radio_Monkho = tagDialog.findViewById(R.id.radio_Monkho);
+        radio_Monbanh = tagDialog.findViewById(R.id.radio_Monbanh);
+        radio_Monman = tagDialog.findViewById(R.id.radio_Monman);
+
+        initRadioButton();
+        clickToTag();
         btnCreatePost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,8 +141,6 @@ public class CreatePostActivity extends AppCompatActivity {
                 createPost(post);
                 progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Post Created Successfully.", Toast.LENGTH_SHORT).show();
-
-
 
             }
         });
@@ -310,5 +344,187 @@ public class CreatePostActivity extends AppCompatActivity {
             input_status.setError(null);
             return true;
         }
+    }
+
+    private void initRadioButton(){
+        radio_Monman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Monman.isSelected()) {
+                    radio_Monman.setChecked(true);
+                    radio_Monman.setSelected(true);
+                } else {
+                    radio_Monman.setChecked(false);
+                    radio_Monman.setSelected(false);
+                }
+            }
+        });
+
+        radio_Monchay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Monchay.isSelected()) {
+                    radio_Monchay.setChecked(true);
+                    radio_Monchay.setSelected(true);
+                } else {
+                    radio_Monchay.setChecked(false);
+                    radio_Monchay.setSelected(false);
+                }
+            }
+        });
+
+        radio_Chayman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Chayman.isSelected()) {
+                    radio_Chayman.setChecked(true);
+                    radio_Chayman.setSelected(true);
+                } else {
+                    radio_Chayman.setChecked(false);
+                    radio_Chayman.setSelected(false);
+                }
+            }
+        });
+
+        radio_Monkho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Monkho.isSelected()) {
+                    radio_Monkho.setChecked(true);
+                    radio_Monkho.setSelected(true);
+                } else {
+                    radio_Monkho.setChecked(false);
+                    radio_Monkho.setSelected(false);
+                }
+            }
+        });
+
+        radio_Monnuoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Monnuoc.isSelected()) {
+                    radio_Monnuoc.setChecked(true);
+                    radio_Monnuoc.setSelected(true);
+                } else {
+                    radio_Monnuoc.setChecked(false);
+                    radio_Monnuoc.setSelected(false);
+                }
+            }
+        });
+
+        radio_Monbanh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Monbanh.isSelected()) {
+                    radio_Monbanh.setChecked(true);
+                    radio_Monbanh.setSelected(true);
+                } else {
+                    radio_Monbanh.setChecked(false);
+                    radio_Monbanh.setSelected(false);
+                }
+            }
+        });
+
+        radio_Haisan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Haisan.isSelected()) {
+                    radio_Haisan.setChecked(true);
+                    radio_Haisan.setSelected(true);
+                } else {
+                    radio_Haisan.setChecked(false);
+                    radio_Haisan.setSelected(false);
+                }
+            }
+        });
+
+        radio_Donuong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Donuong.isSelected()) {
+                    radio_Donuong.setChecked(true);
+                    radio_Donuong.setSelected(true);
+                } else {
+                    radio_Donuong.setChecked(false);
+                    radio_Donuong.setSelected(false);
+                }
+            }
+        });
+
+        radio_Anvat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!radio_Anvat.isSelected()) {
+                    radio_Anvat.setChecked(true);
+                    radio_Anvat.setSelected(true);
+                } else {
+                    radio_Anvat.setChecked(false);
+                    radio_Anvat.setSelected(false);
+                }
+            }
+        });
+    }
+    private void clickToTag(){
+        btnTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tagDialog.show();
+            }
+        });
+
+        btnCloseFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tagDialog.dismiss();
+            }
+        });
+
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tagList.clear();
+
+                String check = "";
+                if (radio_Monman.isChecked()) {
+                    check = check + radio_Monman.getText().toString();
+                    tagList.add(radio_Monman.getText().toString());
+                }
+                if (radio_Monchay.isChecked()) {
+                    check = check + radio_Monchay.getText().toString();
+                    tagList.add(radio_Monchay.getText().toString());
+                }
+                if (radio_Chayman.isChecked()) {
+                    check = check + radio_Chayman.getText().toString();
+                    tagList.add(radio_Chayman.getText().toString());
+                }
+                if (radio_Monkho.isChecked()) {
+                    check = check + radio_Monkho.getText().toString();
+                    tagList.add(radio_Monkho.getText().toString());
+                }
+                if (radio_Monnuoc.isChecked()) {
+                    check = check + radio_Monnuoc.getText().toString();
+                    tagList.add(radio_Monnuoc.getText().toString());
+                }
+                if (radio_Monbanh.isChecked()) {
+                    check = check + radio_Monbanh.getText().toString();
+                    tagList.add(radio_Monbanh.getText().toString());
+                }
+                if (radio_Haisan.isChecked()) {
+                    check = check + radio_Haisan.getText().toString();
+                    tagList.add(radio_Haisan.getText().toString());
+                }
+                if (radio_Donuong.isChecked()) {
+                    check = check + radio_Donuong.getText().toString();
+                    tagList.add(radio_Donuong.getText().toString());
+                }
+                if (radio_Anvat.isChecked()) {
+                    check = check + radio_Anvat.getText().toString();
+                    tagList.add(radio_Anvat.getText().toString());
+                }
+
+                tagDialog.dismiss();
+                Log.d("CheckedFilter", check);
+            }
+        });
     }
 }

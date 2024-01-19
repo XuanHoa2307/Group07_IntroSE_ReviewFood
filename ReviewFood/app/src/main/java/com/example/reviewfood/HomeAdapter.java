@@ -106,19 +106,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         holder.fullNameAuthor.setText(posts.get(position).getAuthor());
         holder.timePost.setText(TimestampConverter.getTime(posts.get(position).getPostTime()));
-
-        int currentLikeNumber = posts.get(position).getLikeIDList().size();
-        posts.get(position).setLikeNumber(currentLikeNumber);
-
-        int currentDislikeNumber = posts.get(position).getDislikeIDList().size();
-        posts.get(position).setDislikeNumber(currentDislikeNumber);
-
         holder.countLike.setText(String.valueOf(posts.get(position).getLikeNumber()));
         holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
         holder.countCmt.setText(String.valueOf(posts.get(position).getCommentNumber()));
 
+        String withHastag = "";
+        withHastag = withHastag + posts.get(position).getStatus() + "\n\n";
+        for (int i = 0; i < posts.get(position).getTagList().size(); i++){
+            withHastag = withHastag + "#" + posts.get(position).getTagList().get(i) + " ";
+        }
 
-        holder.statusPost.setText(posts.get(position).getStatus());
+        holder.statusPost.setText(withHastag);
         holder.statusPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
