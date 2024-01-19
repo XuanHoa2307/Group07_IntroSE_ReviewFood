@@ -131,8 +131,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         return comments.size();
     }
 
-
-
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
 
         private TextView userName;
