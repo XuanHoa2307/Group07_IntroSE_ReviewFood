@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/post_report_screen_copy"
+    >
+
+
+    <RelativeLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        >
+
+        <ImageButton
+            android:id="@+id/btnBackReportNotification"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/backbutton"
+            />
+
+        <ImageButton
+            android:id="@+id/btnSettingReportNotification"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/setting_icon"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/reportNotificationTiltle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:text="Report Notification"
+        android:textStyle="bold"
+        android:textSize="23dp"/>
+    
+    <RelativeLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reportNotificationTiltle"
+        android:layout_marginTop="40dp"
+        >
+
+        <RelativeLayout android:id="@+id/layoutPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            >
+            <TextView
+                android:id="@+id/postTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+               />
+
+            <View
+                android:id="@+id/vector_11"
+                android:layout_width="130dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/postTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/vector" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_toRightOf="@+id/layoutPost"
+            >
+            <TextView
+                android:id="@+id/commentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comment"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                />
+
+            <View
+                android:id="@+id/vector_22"
+                android:layout_width="130dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/commentTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/vector" />
+        </RelativeLayout>
+
+        
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/reportListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout2"
+        android:layout_margin="20dp"/>
+
+</RelativeLayout>

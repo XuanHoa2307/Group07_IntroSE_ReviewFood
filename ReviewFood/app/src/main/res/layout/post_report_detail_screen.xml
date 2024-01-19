@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/post_report_screen_copy">
+
+
+    <ImageButton
+        android:id="@+id/btnBackPostReportDetail"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/backbutton" />
+
+
+    <TextView
+        android:id="@+id/detailReportTiltle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Detail Report"
+        android:textSize="23dp"
+        android:textStyle="bold" />
+
+
+    <RelativeLayout
+        android:id="@+id/layout1_detail_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detailReportTiltle"
+        android:layout_margin="20dp"
+        android:background="@drawable/border_background"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:id="@+id/layout2_detail_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatarUserPostDetailReport"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_background"
+                android:src="@drawable/avatar" />
+
+            <TextView
+                android:id="@+id/nameUserPostDetailReport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/avatarUserPostDetailReport"
+                android:text="xuanhoa072"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/goToPostTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Go to post"
+                android:textSize="16dp"
+                android:textStyle="italic" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/postTitleDetailReport"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout2_detail_report"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Tittle post"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/postContentDetailReport"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/postTitleDetailReport"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="post content"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/imagePostDetailReport"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:layout_below="@+id/postContentDetailReport"
+            android:layout_centerHorizontal="true" />`
+
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/detailPostReportListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1_detail_report"
+        android:layout_margin="20dp" />
+
+</RelativeLayout>
