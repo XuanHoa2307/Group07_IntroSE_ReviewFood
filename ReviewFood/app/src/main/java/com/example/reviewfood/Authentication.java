@@ -8,7 +8,8 @@ public class Authentication {
     private String email;
     private String password;
 
-    public Authentication() {}
+    public Authentication() {
+    }
 
     public Authentication(String email, String password) {
         this.email = email;
@@ -19,6 +20,7 @@ public class Authentication {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public String getEmail() {
         return email;
     }

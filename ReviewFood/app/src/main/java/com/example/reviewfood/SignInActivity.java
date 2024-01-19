@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,7 +21,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -35,10 +43,18 @@ public class SignInActivity extends AppCompatActivity {
     FirebaseFirestore fireStore;
     Authentication authUser;
     User userInf;
+
+    private List<String> mailAdmin = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        mailAdmin.add("admin001@gmail.com");
+        mailAdmin.add("admin002@gmail.com");
+        mailAdmin.add("admin003@gmail.com");
+        mailAdmin.add("admin004@gmail.com");
+        mailAdmin.add("admin005@gmail.com");
 
         edTxt_Email = findViewById(R.id.edTxt_Email_SignIn);
         edTxt_Password = findViewById(R.id.edTxt_Password_SignIn);
@@ -97,6 +113,7 @@ public class SignInActivity extends AppCompatActivity {
                                         authUser.setPassword(Authentication.hashPass(password));
                                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                         String userUid = user.getUid();
+
                                         fireStore.collection("Authentication")
                                                  .document(userUid)
                                                  .set(authUser).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -112,9 +129,11 @@ public class SignInActivity extends AppCompatActivity {
                                         else{
                                             clearCredentials();
                                         }
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                                        startActivity(intent);
+                                        if (mailAdmin.contains(authUser.getEmail())) {
+                                            // Sign in success, update UI with the signed-in user's information
+                                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        }
 
                                         
                                         // dong tat ca cac activity trc khi dki account va vao giao dien thanh cong
