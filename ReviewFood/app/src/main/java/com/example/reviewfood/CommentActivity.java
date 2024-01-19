@@ -5,11 +5,9 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,9 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.reviewfood.Comment.Comment;
-import com.example.reviewfood.Comment.CommentAdapter;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,11 +35,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.firestore.WriteBatch;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,58 +110,6 @@ public class CommentActivity extends AppCompatActivity {
         handleButtonClick();
     }
 
-
-    // Phương thức để đọc danh sách bình luận từ Firestore
-    public void loadComment() {
-        fireStore.collection("Comment").whereEqualTo("postId", postId)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (error == null) {
-                            if (!value.isEmpty()) {
-                                for (DocumentChange doc : value.getDocumentChanges()) {
-                                    if (doc.getType() == DocumentChange.Type.ADDED) {
-                                        String cmtId = doc.getDocument().getId();
-                                        Comment cmt = doc.getDocument().toObject(Comment.class).withId(cmtId);
-
-                                        if (!isCommentExists(cmtId)) {
-                                            commentList.add(0, cmt);
-                                            commentAdapter.notifyItemInserted(0);
-                                        }
-                                    }
-
-                                    if (doc.getType() == DocumentChange.Type.MODIFIED) {
-                                        String postId = doc.getDocument().getId();
-                                        Post rvPost = doc.getDocument().toObject(Post.class).withId(postId);
-
-
-                                        int index = 0;
-                                        for (int i = 0; i < commentList.size(); i++) {
-                                            if (commentList.get(i).commentId.equals(postId)) {
-
-                                                index = i;
-                                                break;
-                                            }
-                                        }
-
-                                        commentAdapter.notifyItemChanged(index);
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                });
-    }
-
-    private boolean isCommentExists(String cmtId) {
-        for (Comment cmt : commentList) {
-            if (cmt.commentId.equals(cmtId)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private int currentLongPressedCommentPosition = -1;
 
@@ -351,64 +293,6 @@ public class CommentActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-
-
-
-    /*public void listenDataChange() {
-        Toast.makeText(this, "listenDataChange", Toast.LENGTH_SHORT).show();
-        fireStore.collection("Comment").whereEqualTo("postId",postId).orderBy("cmtTime", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error == null) {
-                    if (!value.isEmpty()) {
-                        for (DocumentChange doc : value.getDocumentChanges()) {
-                            if (doc.getType() == DocumentChange.Type.ADDED) {
-                                String commentId = doc.getDocument().getId();
-                                Comment cmt = doc.getDocument().toObject(Comment.class).withId(commentId);
-                                commentList.add(0, cmt);
-                                commentAdapter.notifyItemInserted(0);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }*/
-
-    /*public void listenDataChange() {
-        fireStore.collection("Comment").whereEqualTo("postId", postId).orderBy("cmtTime", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error == null) {
-                    if (!value.isEmpty()) {
-                        List<Comment> newComments = new ArrayList<>();
-
-                        for (DocumentChange doc : value.getDocumentChanges()) {
-                            if (doc.getType() == DocumentChange.Type.ADDED) {
-                                String commentId = doc.getDocument().getId();
-                                Comment cmt = doc.getDocument().toObject(Comment.class).withId(commentId);
-
-                                // Kiểm tra xem bình luận đã tồn tại trong danh sách chưa
-                                if (!commentList.contains(cmt)) {
-                                    newComments.add(0, cmt);
-                                }
-                            }
-                        }
-
-                        // Thêm tất cả bình luận mới vào danh sách hiện có
-                        commentList.addAll(0, newComments);
-
-                        // Cập nhật giao diện chỉ một lần sau khi thêm tất cả bình luận mới
-                        commentAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        });
-    }*/
-
-
 
     private void readInformation(){
 

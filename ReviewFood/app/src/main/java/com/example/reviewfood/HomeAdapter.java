@@ -1,21 +1,50 @@
 package com.example.reviewfood;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+
 import android.text.TextUtils;
+import android.view.ContextMenu;
+
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.reviewfood.Fragment.HomeFragment;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
+
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -47,7 +76,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HomeViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         String postId = posts.get(position).postId;
 
@@ -88,6 +117,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
         holder.countCmt.setText(String.valueOf(posts.get(position).getCommentNumber()));
 
+
         holder.statusPost.setText(posts.get(position).getStatus());
         holder.statusPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +145,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
 
         //cac chuc nang khac cua post : like, cmt, save,...
+
 
         if (posts.get(position).getLikeIDList().contains(currentUserID)){
             posts.get(position).isLiked = true;
@@ -218,6 +249,158 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
         });
 
+
+        holder.btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, position);
+            }
+        });
+
+
+
+        // Check save post before
+        fireStore.collection("User/" + currentUserID + "/Favorite Post").document(postId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error == null) {
+                    if (value.exists()) {
+                        holder.save.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.blue_skye), android.graphics.PorterDuff.Mode.SRC_IN);
+                    } else {
+                        holder.save.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.black), android.graphics.PorterDuff.Mode.SRC_IN);
+                    }
+                }
+            }
+        });
+
+
+        holder.save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fireStore.collection("User/" + currentUserID + "/Favorite Post").document(postId).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (!task.getResult().exists()) {
+                                    Map<String, Object> saveTime = new HashMap<>();
+                                    saveTime.put("saveTime", FieldValue.serverTimestamp());
+                                    fireStore.collection("User/" + currentUserID + "/Favorite Post").document(postId).set(saveTime);
+                                    holder.save.setColorFilter(ContextCompat.getColor(holder.itemView.getContext(), R.color.blue_skye), android.graphics.PorterDuff.Mode.SRC_IN);
+                                } else
+                                    Toast.makeText(context, "User saved this post before.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+
+
+
+
+
+    }
+
+
+    private void showPopupMenu(View view, int position) {
+        PopupMenu popupMenu = new PopupMenu(context, view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.post_context_menu, popupMenu.getMenu());
+
+        // Kiểm tra xem bài viết có phải của người dùng hiện tại không
+        boolean isCurrentUserPost = posts.get(position).getUserID().equals(currentUserID);
+
+        // Ẩn/hiện các mục menu tùy thuộc vào người dùng hiện tại có phải là tác giả của bài viết không
+        popupMenu.getMenu().findItem(R.id.menu_delete_post).setVisible(isCurrentUserPost);
+        popupMenu.getMenu().findItem(R.id.menu_edit_post).setVisible(isCurrentUserPost);
+
+        // Đăng ký sự kiện cho các mục menu
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.menu_delete_post){
+                    handleDeletePost(position);
+                    return true;
+                }
+                else if (id == R.id.menu_edit_post){
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        // Hiển thị PopupMenu
+        popupMenu.show();
+    }
+
+    private void handleDeletePost(int position) {
+
+        // Lấy thông tin của bình luận từ danh sách
+        Post deletedPost = posts.get(position);
+        List<String> idCmtOfPost = new ArrayList<>();
+
+        // Lấy DocumentReference của bình luận cần xóa
+        DocumentReference postRef = fireStore.collection("Post").document(deletedPost.postId);
+
+        // Lấy dữ liệu của bài viết
+        postRef.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Document tồn tại, bạn có thể lấy dữ liệu từ documentSnapshot
+                        Post post = documentSnapshot.toObject(Post.class);
+                        // Bây giờ biến post chứa dữ liệu của bài viết từ Firestore
+                        for (String id:post.getCommentList()
+                             ) {
+                            idCmtOfPost.add(id);
+                        }
+                    } else {
+                        // Document không tồn tại
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý khi có lỗi xảy ra trong quá trình lấy dữ liệu
+                });
+
+        // Xóa bình luận từ Firestore
+        postRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        for (String cmtId : idCmtOfPost) {
+                            deleteCommentOfPost(cmtId);
+                        }
+                        posts.remove(deletedPost);
+                        notifyDataSetChanged();
+                        Toast.makeText(context, "Post đã được xóa", Toast.LENGTH_SHORT).show();
+                        //updateCommentToCloud(postId);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Xử lý khi xóa thất bại
+                        Toast.makeText(context, "Xóa Post thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void deleteCommentOfPost(String cmtId){
+        DocumentReference commentRef = fireStore.collection("Comment").document(cmtId);
+
+        // Xóa bình luận từ Firestore
+        commentRef.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        //updateCommentToCloud(postId);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 
     private void updateLikeDisLikeToCloud(int position, String postId){
@@ -243,6 +426,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     // Ví dụ: hiển thị thông báo lỗi hoặc thực hiện các thao tác khác
                 });
     }
+
 
 
 

@@ -16,9 +16,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.reviewfood.ChangePasswordActivity;
+import com.example.reviewfood.PostFragment;
 import com.example.reviewfood.R;
 import com.example.reviewfood.SignInActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,7 +37,7 @@ import com.google.firebase.storage.StorageReference;
 public class SettingFragment extends Fragment {
 
     private View mView;
-    private TextView changeThemes, changePassword, FAQ, btnLogOut;
+    private TextView MyListPost, changePassword, FAQ, btnLogOut;
 
     private ImageView imgAvatar;
     private TextView txtName;
@@ -42,12 +45,20 @@ public class SettingFragment extends Fragment {
     FirebaseAuth fireAuth;
     FirebaseFirestore fireStore;
     StorageReference storageReference;
+    String UserID;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_setting, container, false);
 
-        changeThemes = mView.findViewById(R.id.ChangeThemes);
+        return mView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View mView, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(mView, savedInstanceState);
+
+        MyListPost = mView.findViewById(R.id.My_List_PostCreate);
         changePassword = mView.findViewById(R.id.ChangePassword);
         FAQ = mView.findViewById(R.id.FAQ);
         btnLogOut = mView.findViewById(R.id.btn_LogOut);
@@ -58,9 +69,26 @@ public class SettingFragment extends Fragment {
         fireAuth = FirebaseAuth.getInstance();
         fireStore = FirebaseFirestore.getInstance();
 
-        showUserInformationSettings();
+        UserID = fireAuth.getCurrentUser().getUid();
 
-        ClickToChangeThemes();
+        MyListPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostFragment postFragment = new PostFragment();
+
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                fragmentTransaction.replace(R.id.content_frame, postFragment);
+
+                fragmentTransaction.addToBackStack(null);
+
+                fragmentTransaction.commit();
+            }
+        });
+
+        showUserInformationSettings();
 
         ClickToChangePassword();
 
@@ -68,9 +96,7 @@ public class SettingFragment extends Fragment {
 
         ClickToLogOut();
 
-        return mView;
     }
-
 
     public void showUserInformationSettings(){
 
@@ -120,15 +146,6 @@ public class SettingFragment extends Fragment {
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
-            }
-        });
-    }
-
-    private void ClickToChangeThemes(){
-        changeThemes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Nothing, waiting to do", Toast.LENGTH_SHORT).show();
             }
         });
     }

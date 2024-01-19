@@ -1,6 +1,5 @@
 package com.example.reviewfood;
 
-import com.example.reviewfood.Comment.Comment;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
@@ -20,6 +19,7 @@ public class Post extends PostId {
     public boolean isDisLiked;
     private int commentNumber;
     private List<String> commentList;
+
 
 
     public Post() {
@@ -48,6 +48,8 @@ public class Post extends PostId {
         this.commentNumber = 0;
         this.commentList = new ArrayList<>();
     }
+
+
 
     public String getAuthor() {
         return author;
@@ -101,7 +103,6 @@ public class Post extends PostId {
         this.postTime = postTime;
     }
 
-
     public void setLikeNumber(int likeNumber) {
         this.likeNumber = likeNumber;
     }
@@ -125,5 +126,6 @@ public class Post extends PostId {
     public void setCommentList(List<String> commentList) {
         this.commentList = commentList;
     }
+
 }
 

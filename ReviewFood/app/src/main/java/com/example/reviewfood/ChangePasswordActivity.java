@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText edTxt_OldPassword, edTxt_NewPassword, edTxt_ConfirmPassword;
-    private Button btn_ChangePass, btn_BackToFragChangePass;
+    private Button btn_ChangePass;
+    private ImageButton btn_BackToFragChangePass;
     private ProgressDialog progressDialog;
 
     FirebaseAuth fireAuth;
