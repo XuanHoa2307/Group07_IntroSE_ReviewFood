@@ -66,7 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Check if email, password valid
                 if (!validateEmail() | !validatePassword() | !validateConfirmPassword()) {
                     return;
                 }
