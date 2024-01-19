@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //--------------------------------------------------------------------
     final private ProfileFragment mProfileFragment = new ProfileFragment();
-
     final private SettingFragment mSettingFragment = new SettingFragment();
 
     @Override
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mNavigationView.setNavigationItemSelectedListener(this);
 
         // Set man hinh moi vao
-        replaceFragment(new HomeFragment());
+        replaceFragment(new HomeFragment(this));
         mNavigationView.getMenu().findItem(R.id.navi_home).setChecked(true);
 
     }
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if(id == R.id.navi_home){
             if(mCurrentFragment != FRAGMENT_HOME ){
-                replaceFragment(new HomeFragment());
+                replaceFragment(new HomeFragment(this));
                 mCurrentFragment = FRAGMENT_HOME;
             }
         }

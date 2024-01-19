@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/title_CreatePost"
+        android:layout_width="fill_parent"
+        android:layout_height="75dp"
+        android:background="@color/lightblue"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+
+        <ImageButton
+            android:id="@+id/btn_BackCreatePost"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/close_create_post"
+            android:contentDescription="BackButton_From_CreatePost"
+            tools:ignore="HardcodedText,ImageContrastCheck" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="67dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/inika"
+            android:paddingVertical="10dp"
+            android:text="Create Post"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textDirection="firstStrong"
+            android:textIsSelectable="false"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText,TextSizeCheck" />
+
+        <ImageButton
+            android:id="@+id/btn_createPost"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/post_create_post"
+            android:contentDescription="PostButton_From_CreatePost"
+            tools:ignore="HardcodedText,ImageContrastCheck" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/border_under_title"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/title_CreatePost"
+        tools:ignore="MissingConstraints">
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/border_under_title"
+        tools:ignore="MissingConstraints">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar_User"
+            android:layout_width="44dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/avatar_default2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fullName_User"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/rubik"
+            android:text="Full name"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView22"
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="110dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            card_view:cardCornerRadius="20dp"
+            card_view:cardPreventCornerOverlap="false">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
+            android:layout_height="133dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="111dp"
+            android:layout_marginEnd="29dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            card_view:cardCornerRadius="20dp"
+            card_view:cardPreventCornerOverlap="false">
+
+
+            <EditText
+                android:id="@+id/edTxt_Status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Hãy review cho mọi người..."
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                tools:ignore="Autofill,HardcodedText,LabelFor,VisualLintTextFieldSize,TextContrastCheck" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="match_parent"
+            android:layout_height="204dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="264dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            card_view:cardCornerRadius="10dp"
+            card_view:cardPreventCornerOverlap="false">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="match_parent"
+            android:layout_height="202dp"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="265dp"
+            android:layout_marginEnd="29dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            card_view:cardCornerRadius="10dp"
+            card_view:cardPreventCornerOverlap="false">
+
+            <ImageView
+                android:id="@+id/imagePost"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:src="@drawable/add_image_post"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
+
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="TODO"
+            android:background="@drawable/photo_create_post"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView3"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/address_create_post"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="136dp"
+            android:background="@drawable/tag_create_post"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgB_picture"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/imgB_picture"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/photo_button_create_post"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck"
+            />
+
+        <ImageButton
+            android:id="@+id/imgB_address"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/address_button_create_post"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toBottomOf="@+id/imgB_picture"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck"
+            />
+
+        <ImageButton
+            android:id="@+id/imgB_tag"
+            android:layout_width="110dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/tag_button_create_post"
+            app:layout_constraintEnd_toEndOf="@+id/cardView4"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintTop_toBottomOf="@+id/imgB_picture"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

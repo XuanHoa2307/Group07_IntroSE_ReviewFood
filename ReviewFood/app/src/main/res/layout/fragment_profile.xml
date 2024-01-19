@@ -20,7 +20,10 @@
             android:layout_width="130dp"
             android:layout_height="139dp"
             android:layout_marginStart="37dp"
-            android:src="@drawable/avatar_default2"/>
+            android:clickable="true"
+            android:onClick="onClick"
+            android:src="@drawable/avatar_default2"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageView
             android:layout_width="30dp"

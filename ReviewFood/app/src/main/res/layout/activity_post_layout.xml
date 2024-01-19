@@ -1,81 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/grey">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/avatarPost"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatar_Author"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/avatar_default"
             android:contentDescription="string_avatarPost"
-            tools:ignore="HardcodedText"/>
+            tools:ignore="HardcodedText,MissingConstraints"/>
 
         <TextView
-            android:id="@+id/nameAuthorPost"
+            android:id="@+id/fullName_AuthorPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="5dp"
-            android:text="username"
-            android:textSize="20dp"
-            android:textStyle="bold"
+            android:layout_marginStart="47dp"
+            android:layout_marginTop="9dp"
+            android:text="fullName"
             android:textColor="@color/black"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText,SpUsage" />
 
         <TextView
-            android:id="@+id/timePost"
+            android:id="@+id/time_Post"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="4dp"
-            android:text="02:07 - T7, 23/07/2022"
-            android:textSize="17dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="240dp"
+            android:layout_marginTop="10dp"
+            android:text="time upload"
             android:textColor="@color/black"
-            tools:ignore="HardcodedText" />
+            android:textSize="17dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText,MissingConstraints" />
 
         <ImageView
-            android:id="@+id/menuPost"
+            android:id="@+id/report_Post"
             android:layout_width="37dp"
             android:layout_height="35dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="348dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/ic_menu_post"
-            tools:ignore="HardcodedText"/>
+            app:layout_constraintStart_toStartOf="@+id/avatar_Author"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText,MissingConstraints" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/captionPost"
-            android:layout_width="wrap_content"
+            android:id="@+id/status_Post"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
-            android:padding="4dp"
+            android:padding="2dp"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:text="~ Review thức ăn nhanh cho cả nhà! ~\n\n Quán ăn: Gà rán KFC.\n\n Món: Combo Hamburger và Gà kèm Cocacola.\n\n Cảm nhận: Hamburger mềm, topping đầy đủ ngon, ổn\n                      Gà rán giòn ngoài, trong mềm và ẩm.\n\n Địa chỉ: số 542 Võ Văn Ngân, Thủ Đức - TP.HCM"
-            android:textSize="16dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="16dp" />
 
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/postImageView"
+        android:id="@+id/post_ImageView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="270dp"
         android:contentDescription="string_postImage"
         android:src="@drawable/garan"
         android:background="@color/white"/>
@@ -84,19 +94,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp"
+        android:padding="7dp"
         android:gravity="left"
-        android:background="@color/white"
-        android:layout_marginBottom="10dp">
+        android:background="@drawable/ic_stroke_settings">
 
         <ImageButton
-            android:id="@+id/likeButton"
+            android:id="@+id/like_Btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_up_vote"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         <TextView
-            android:id="@+id/likeCount"
+            android:id="@+id/like_Count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="123"
@@ -105,14 +114,14 @@
             android:layout_gravity="center_vertical"/>
 
         <ImageButton
-            android:id="@+id/dislikeButton"
+            android:id="@+id/dislike_Btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
+            android:layout_marginStart="24dp"
             android:src="@drawable/ic_down_vote"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         <TextView
-            android:id="@+id/dislikeCount"
+            android:id="@+id/dislike_Count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="45"
@@ -121,14 +130,14 @@
             android:layout_gravity="center_vertical"/>
 
         <ImageButton
-            android:id="@+id/commentButton"
+            android:id="@+id/comment_Btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
             android:src="@drawable/ic_comment"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         <TextView
-            android:id="@+id/commentCount"
+            android:id="@+id/comment_Count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="67"
@@ -137,14 +146,14 @@
             android:layout_gravity="center_vertical"/>
 
         <ImageButton
-            android:id="@+id/saveButton"
+            android:id="@+id/save_Btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
             android:src="@drawable/ic_save_post"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         <TextView
-            android:id="@+id/saveText"
+            android:id="@+id/save_Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"

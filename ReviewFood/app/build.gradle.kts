@@ -29,7 +29,7 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
@@ -63,5 +63,9 @@ dependencies {
 
     implementation("com.squareup.picasso:picasso:2.5.2")
     api ("com.theartofdev.edmodo:android-image-cropper:2.8.+")
+
+    implementation ("androidx.cardview:cardview:1.0.0")
+    //noinspection GradleDependency
+    implementation ("com.google.android.material:material:1.1.0-alpha02")
 
 }
