@@ -77,7 +77,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void checkOldPasswordAndChange(String OldPassword, String NewPassword) {
-
+        // get current user from firebase
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         fireAuth.signInWithEmailAndPassword(user.getEmail(), OldPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
