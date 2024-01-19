@@ -85,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     progressDialog.dismiss();
                                     if (task.isSuccessful()) {
-
+                                        //if task sucess, do...
                                         authUser.setPassword(Authentication.hashPass(authUser.getPassword()));
                                         String userUid = fireAuth.getCurrentUser().getUid();
                                         fireStore.collection("Authentication")
