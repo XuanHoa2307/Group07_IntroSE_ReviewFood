@@ -138,6 +138,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 post.setStatus(input_status.getText().toString());
                 post.setImagePost("");
                 post.setPostTime(timestamp);
+                post.setTagList(tagList);
                 createPost(post);
                 progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Post Created Successfully.", Toast.LENGTH_SHORT).show();
