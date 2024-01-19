@@ -191,74 +191,51 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="TODO"
-            android:background="@drawable/photo_create_post"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView3"
-            tools:ignore="ContentDescription,HardcodedText" />
-
-        <ImageView
             android:id="@+id/imageView5"
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/address_create_post"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4"
             tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/imageView6"
             android:layout_width="45dp"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="136dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="144dp"
             android:background="@drawable/tag_create_post"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgB_picture"
+            app:layout_constraintHorizontal_bias="0.823"
+            app:layout_constraintStart_toEndOf="@+id/btn_Address"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4"
             tools:ignore="ContentDescription" />
 
         <ImageButton
-            android:id="@+id/imgB_picture"
+            android:id="@+id/btn_Address"
             android:layout_width="110dp"
             android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/photo_button_create_post"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toBottomOf="@+id/cardView4"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck"
-            />
-
-        <ImageButton
-            android:id="@+id/imgB_address"
-            android:layout_width="110dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/address_button_create_post"
             app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/imgB_picture"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/cardView4"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
         <ImageButton
             android:id="@+id/imgB_tag"
             android:layout_width="110dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/tag_button_create_post"
             app:layout_constraintEnd_toEndOf="@+id/cardView4"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toBottomOf="@+id/imgB_picture"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4"
             tools:ignore="ContentDescription,SpeakableTextPresentCheck,ImageContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
