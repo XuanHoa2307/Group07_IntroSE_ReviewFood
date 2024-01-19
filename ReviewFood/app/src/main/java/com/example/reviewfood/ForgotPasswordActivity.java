@@ -43,7 +43,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         fireAuth = FirebaseAuth.getInstance();
         fireStore = FirebaseFirestore.getInstance();
-
+        // Sent request to email
         ClickSentToEmailForResetPassword();
         ClickBackToLogIn();
 
