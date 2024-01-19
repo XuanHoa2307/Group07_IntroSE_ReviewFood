@@ -470,6 +470,7 @@ public class HomeFragment extends Fragment {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
+                                        //khởi tạo độ liên quan
                                         relativeLevel.add(0);
 
                                         // lấy data
@@ -497,25 +498,33 @@ public class HomeFragment extends Fragment {
                                             Log.d("Tag Filter relate", String.valueOf(relativeLevel.get(relativeLevel.size() - 1)));
 
                                         } else {
+                                            // xóa độ liên quan nếu = 0
                                             relativeLevel.remove(relativeLevel.size() - 1);
                                         }
 
+
                                     }
+
 
                                     //Sort mảng Post lấy được theo độ liên quan
                                     qsort(postsFromDB, relativeLevel,0,relativeLevel.size() - 1);
 
-                                    //Xóa Post không liên quan (có độ liên quan < 1).
+                                    //log check tồn tại trong list updated
                                     for (int i = 0; i < relativeLevel.size(); i++){
+
                                         Log.d("Sort", postsFromDB.get(i).getStatus() + " - " + relativeLevel.get(i));
+
                                     }
 
                                     //Cập nhật màn hình chính
                                     postList.clear();
                                     postList.addAll(postsFromDB);
                                     viewPostAdapter.notifyDataSetChanged();
+
                                 } else {
+
                                     Log.d("Tag Filter", "Error getting documents to search bar from: ", task.getException());
+
                                 }
                             }
                         });
@@ -529,11 +538,13 @@ public class HomeFragment extends Fragment {
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 postList.clear();
                 postList.addAll(tempPost);
                 viewPostAdapter.notifyDataSetChanged();
                 btnClear.setVisibility(View.INVISIBLE);
                 searchBar.setText("");
+                
             }
         });
     }
