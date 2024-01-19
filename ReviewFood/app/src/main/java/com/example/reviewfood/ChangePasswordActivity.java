@@ -60,7 +60,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 String OldPassword = edTxt_OldPassword.getText().toString().trim();
                 String NewPassword = edTxt_NewPassword.getText().toString().trim();
                 String ConfirmPassword = edTxt_ConfirmPassword.getText().toString().trim();
-
+                // Check if password is empty
                 if (OldPassword.isEmpty() || NewPassword.isEmpty() || ConfirmPassword.isEmpty()) {
                     Toast.makeText(ChangePasswordActivity.this, "Vui lòng nhập đủ Old-password, New-password và Confirm-password", Toast.LENGTH_SHORT).show();
                 }
@@ -77,7 +77,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void checkOldPasswordAndChange(String OldPassword, String NewPassword) {
-
+        // get current user from firebase
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         fireAuth.signInWithEmailAndPassword(user.getEmail(), OldPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

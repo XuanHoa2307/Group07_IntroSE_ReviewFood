@@ -66,7 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
         btn_SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Check if email, password valid
                 if (!validateEmail() | !validatePassword() | !validateConfirmPassword()) {
                     return;
                 }
@@ -85,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     progressDialog.dismiss();
                                     if (task.isSuccessful()) {
-
+                                        //if task sucess, do...
                                         authUser.setPassword(Authentication.hashPass(authUser.getPassword()));
                                         String userUid = fireAuth.getCurrentUser().getUid();
                                         fireStore.collection("Authentication")

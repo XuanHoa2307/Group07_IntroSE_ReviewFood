@@ -43,7 +43,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         fireAuth = FirebaseAuth.getInstance();
         fireStore = FirebaseFirestore.getInstance();
-
+        // Sent request to email
         ClickSentToEmailForResetPassword();
         ClickBackToLogIn();
 
@@ -56,7 +56,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                 String emailAddress = edTxt_Email_ForgotPassword.getText().toString().trim();
                 progressDialog.show();
-
+                // Check if user existed
                 checkExistedUserAndSend(emailAddress);
             }
         });
