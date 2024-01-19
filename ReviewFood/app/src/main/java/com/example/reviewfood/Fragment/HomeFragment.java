@@ -416,6 +416,7 @@ public class HomeFragment extends Fragment {
                 //hiện nút xóa filter
                 btnClear.setVisibility(View.VISIBLE);
 
+                //xóa list check các radio button
                 searchList.clear();
 
                 String check = "";
