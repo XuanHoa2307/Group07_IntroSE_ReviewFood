@@ -80,7 +80,7 @@ public class SignInActivity extends AppCompatActivity {
 
                 String email = edTxt_Email.getText().toString().trim();
                 String password = edTxt_Password.getText().toString().trim();
-
+                // check if email or password empty?
                 if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(SignInActivity.this, "Please enter full account and password information!", Toast.LENGTH_SHORT).show();
                 }

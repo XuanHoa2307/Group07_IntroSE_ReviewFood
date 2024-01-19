@@ -1,5 +1,6 @@
 package com.example.reviewfood;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +32,24 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     FavoriteFragment favoritePostFragment;
     FirebaseFirestore fireStore;
 
+    // Interface callback mới
+    public interface OnFavoritePostClickListener {
+        void onPostDetailClicked(Post post);
+    }
+
+    // Thành viên để giữ tham chiếu đến callback
+    private OnFavoritePostClickListener listener;
+
+    // Thêm listener vào constructor
+    public FavoriteAdapter(List<Post> favoritePostList, Context context, String currentUserId, FavoriteFragment favoritePostFragment, OnFavoritePostClickListener listener) {
+        this.listener = listener;
+        this.favoritePostList = favoritePostList;
+        this.context = context;
+        this.currentUserId = currentUserId;
+        this.favoritePostFragment = favoritePostFragment;
+        this.fireStore = FirebaseFirestore.getInstance();
+    }
+
     public FavoriteAdapter(List<Post> favoritePostList, Context context, String currentUserId, FavoriteFragment favoritePostFragment) {
 
         this.favoritePostList = favoritePostList;
@@ -47,7 +67,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         String postId = favoritePostList.get(position).postId;
         holder.fullNameFavorite.setText(favoritePostList.get(position).getAuthor());
@@ -68,7 +88,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         holder.btnDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (listener != null) {
 
+                    listener.onPostDetailClicked(favoritePostList.get(position));
+                }
             }
         });
 

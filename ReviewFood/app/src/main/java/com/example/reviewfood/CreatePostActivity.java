@@ -143,6 +143,8 @@ public class CreatePostActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Post Created Successfully.", Toast.LENGTH_SHORT).show();
 
+
+
             }
         });
 
