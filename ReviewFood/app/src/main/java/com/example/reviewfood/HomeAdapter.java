@@ -1,6 +1,7 @@
 package com.example.reviewfood;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -23,7 +25,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -49,12 +50,15 @@ import com.google.firebase.firestore.FieldValue;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
@@ -65,6 +69,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     FirebaseFirestore fireStore;
 
     String currentUserID;
+
+    Dialog reportDialog;
+    ImageButton btnSendReport, btnCloseReport;
+    CheckBox cb_nutidy, cb_violence, cb_harassment, cb_falseinfo, cb_spam, cb_suicide, cb_hate, cb_terrorism, cb_involveAChild, cb_other;
     public HomeAdapter(Context context, List<Post> posts, String currentUserID) {
         this.context = context;
         this.posts = posts;
@@ -77,6 +85,31 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_post_layout, parent, false);
+
+        reportDialog = new Dialog(parent.getContext());
+        reportDialog.setContentView(R.layout.layout_report);
+        reportDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        reportDialog.setCancelable(false);
+        btnCloseReport = reportDialog.findViewById(R.id.btn_closeReport);
+        btnCloseReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportDialog.dismiss();
+            }
+        });
+        btnSendReport = reportDialog.findViewById(R.id.btn_sendReport);
+
+        cb_nutidy = reportDialog.findViewById(R.id.checkBox_nutidy);
+        cb_violence = reportDialog.findViewById(R.id.checkBox_violence);
+        cb_harassment = reportDialog.findViewById(R.id.checkBox_Harassment);
+        cb_falseinfo = reportDialog.findViewById(R.id.checkBox_False_infomation);
+        cb_spam = reportDialog.findViewById(R.id.checkBox_Spam);
+        cb_suicide = reportDialog.findViewById(R.id.checkBox_Suicide);
+        cb_hate = reportDialog.findViewById(R.id.checkBox_Hate_peech);
+        cb_terrorism = reportDialog.findViewById(R.id.checkBox_Terrorism);
+        cb_involveAChild = reportDialog.findViewById(R.id.checkBox_Involves_a_child);
+        cb_other = reportDialog.findViewById(R.id.checkBox_Other_reason);
+
         return new HomeViewHolder(view);
     }
 
@@ -133,14 +166,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
         holder.countCmt.setText(String.valueOf(posts.get(position).getCommentNumber()));
 
-        /*holder.avatarAuthor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DetailUserActivity.class);
-                intent.putExtra("authorID", userID);
-                context.startActivity(intent);
-            }
-        });*/
+
 
         holder.statusPost.setText(posts.get(position).getStatus());
 
@@ -267,10 +293,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
         });
 
-
-
         // comment
-
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,6 +305,124 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
             }
         });
 
+        btnSendReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //report mới
+                Report report = new Report();
+                report.setReporterID(currentUserID);
+
+                //kiểm tra ít nhất 1 check
+                boolean isCheckOne = false;
+
+                if (cb_nutidy.isChecked()){
+                    report.setNutidy(true);
+                    isCheckOne = true;
+                    cb_nutidy.setChecked(false);
+                }
+                if (cb_violence.isChecked()){
+                    report.setViolence(true);
+                    isCheckOne = true;
+                    cb_violence.setChecked(false);
+                }
+                if (cb_harassment.isChecked()){
+                    report.setHarassment(true);
+                    isCheckOne = true;
+                    cb_harassment.setChecked(false);
+                }
+                if (cb_falseinfo.isChecked()){
+                    report.setFalseInfomation(true);
+                    isCheckOne = true;
+                    cb_falseinfo.setChecked(false);
+                }
+                if (cb_spam.isChecked()){
+                    report.setSpam(true);
+                    isCheckOne = true;
+                    cb_spam.setChecked(false);
+                }
+                if (cb_suicide.isChecked()){
+                    report.setSuicide(true);
+                    isCheckOne = true;
+                    cb_suicide.setChecked(false);
+                }
+                if (cb_hate.isChecked()){
+                    report.setHateSpeech(true);
+                    isCheckOne = true;
+                    cb_hate.setChecked(false);
+                }
+                if (cb_terrorism.isChecked()){
+                    report.setTerrorism(true);
+                    isCheckOne = true;
+                    cb_terrorism.setChecked(false);
+                }
+                if (cb_involveAChild.isChecked()){
+                    report.setInvolvesAChild(true);
+                    isCheckOne = true;
+                    cb_involveAChild.setChecked(false);
+                }
+                if (cb_other.isChecked()){
+                    report.setOther(true);
+                    isCheckOne = true;
+                    cb_other.setChecked(false);
+                }
+
+                if (isCheckOne){
+                    if (posts.get(position).addReport(report)){
+                        Log.d("check Report", report.getReporterID());
+                        Toast.makeText(context.getApplicationContext(), "Report Sent", Toast.LENGTH_SHORT).show();
+
+                        fireStore.collection("Post")
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                String postId = document.getId();
+                                                Post rvPost = document.toObject(Post.class).withId(postId);
+
+                                                if (Objects.equals(rvPost.getAuthor(), posts.get(position).getAuthor())
+                                                        && Objects.equals(rvPost.getStatus(), posts.get(position).getStatus())) {
+                                                    fireStore.collection("Post").document(postId).set(posts.get(position))
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    // Update successful
+                                                                }
+                                                            })
+                                                            .addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    // Handle failure
+                                                                }
+                                                            });
+                                                }
+                                            }
+                                        } else {
+                                            Log.d("Report send", "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
+                    }
+                    else {
+                        Toast.makeText(context.getApplicationContext(), "Bạn đã gửi report cho post này rồi", Toast.LENGTH_SHORT).show();
+                    }
+
+                    reportDialog.dismiss();
+                }
+                else{
+                    Toast.makeText(context.getApplicationContext(), "Chọn ít nhất 1 mục", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        holder.btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v, position);
+            }
+        });
 
         holder.btnReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,6 +497,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
                     return true;
                 }
                 else if (id == R.id.menu_edit_post){
+                    return true;
+                }
+                else if (id == R.id.menu_report_post){
+                    reportDialog.show();
                     return true;
                 }
                 return false;
@@ -533,3 +678,104 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+
+
+
