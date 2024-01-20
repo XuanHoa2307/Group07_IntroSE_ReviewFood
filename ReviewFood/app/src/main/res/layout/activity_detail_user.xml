@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/post_report_screen_copy">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatarDetailUser"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/fullnameDetailUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fullname"
+        android:textSize="20dp"
+        android:layout_below="@+id/avatarDetailUser"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <ImageButton
+        android:id="@+id/btnMoreDetailUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/more"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"/>
+
+    <ImageButton
+        android:id="@+id/btnBackDetailUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/backbutton"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"/>
+
+</RelativeLayout>
