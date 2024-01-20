@@ -58,32 +58,6 @@ public class DetailUserActivity extends AppCompatActivity {
         }
         firestore = FirebaseFirestore.getInstance();
 
-        /*// Lấy đối tượng Firestore DocumentReference cho user cần lấy
-        DocumentReference userRef = firestore.collection("User").document(userID);*/
-
-// Thực hiện truy vấn
-        /*userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        // Chuyển đổi dữ liệu từ DocumentSnapshot thành đối tượng User
-                        User user1 = document.toObject(User.class);
-
-                        // Bạn có thể sử dụng đối tượng User ở đây
-                        user = user1;
-
-                        // Nếu cần thực hiện một hành động cụ thể sau khi lấy được người dùng
-                    } else {
-                        // Người dùng không tồn tại trong Firestore
-                    }
-                } else {
-                    // Đã xảy ra lỗi trong quá trình lấy dữ liệu
-                    Log.e("Firestore", "Error getting user document", task.getException());
-                }
-            }
-        });*/
         get_fullNameUser(userID);
 
         fullname.setText(userName);

@@ -121,7 +121,7 @@ public class MainActivityAdmin extends AppCompatActivity implements NavigationVi
                 replaceFragment(new ReportNotificationFragment());
                 mCurrentFragment = FRAGMENT_REPORTNOTIFICATION;
             }
-        } else if (id == R.id.navi_setting) {
+        } else if (id == R.id.navi_setting_admin) {
             if (mCurrentFragment != FRAGMENT_SETTING) {
                 replaceFragment(new SettingFragment());
                 mCurrentFragment = FRAGMENT_SETTING;

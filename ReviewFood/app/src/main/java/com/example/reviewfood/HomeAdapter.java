@@ -133,14 +133,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         holder.countDislike.setText(String.valueOf(posts.get(position).getDislikeNumber()));
         holder.countCmt.setText(String.valueOf(posts.get(position).getCommentNumber()));
 
-        holder.avatarAuthor.setOnClickListener(new View.OnClickListener() {
+        /*holder.avatarAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailUserActivity.class);
                 intent.putExtra("authorID", userID);
                 context.startActivity(intent);
             }
-        });
+        });*/
 
         holder.statusPost.setText(posts.get(position).getStatus());
 
